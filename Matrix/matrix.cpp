@@ -27,9 +27,11 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
 
     std::string append = "";
 
-    out << "maxDigit: "<< maxDigit << std::endl;
+    out << "[ ";
 
     for (unsigned int i = 0; i < matrix.num_columns; ++i) {
+        if (i != 0)
+            out << "; ";
         for (unsigned int j = 0; j < matrix.num_rows; j++) {
             append = "";
             int digit = 0;
@@ -47,9 +49,11 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
             out << append << matrix[i][j]; // Right aligned 
             // out << matrix[i][j] << append;  // Left aligned
         }
-        out << std::endl;
+        if (i+1 < matrix.num_columns)
+            out << std::endl;
     }
 
+    out << " ]" << std::endl;
     return out;
 }
 
