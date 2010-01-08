@@ -1,0 +1,96 @@
+/////////////////////////////////////////////////////////////////
+//
+// Personuppgifter (namn, pnr, epost) på dem som gjort labben
+//
+Linus Wallgren      880213-0099     linuswa@kth.se
+Joel Petterson      880519-0637     joelpet@kth.se
+
+
+/////////////////////////////////////////////////////////////////
+//
+// 1.2 a)
+// 
+// Vilket värde får variabeln w? 
+28
+
+// Hur många varv körs for-loopen i funktionen powerof? 
+3
+
+// Varför blir det fel värde?
+För powerof() aldrig returnerar resultatet
+
+// 1.2 b)
+
+// Dina tre testfall
+
+// Varför är det så viktigt att testa randvillkoren?
+
+Så vi slipper off by one fel och olika specialfall.
+
+/////////////////////////////////////////////////////////////////
+//
+// 1.3 
+// 
+
+// Fyll i egen text i de streckade strängarna nedanför. Vad skriver
+// ditt program ut? Varför? När frigörs objekten?  När skapas 
+// temporära objekt?
+
+
+//   A b = a;         // vad är skillnaden
+Detta är en tilldelning. 
+//   A c(a);          // mellan dessa
+Medans detta är en initiering. 
+Samma konstruktor körs
+//   A d;             // tre tekniker?
+Här körs konstruktorn utan argument, iom att vi 
+inte har några argument.
+när sedan d = a körs kommer funktionen motsvarande
+operatorn = att köras och returnera en pekare till
+det egna objektet, dvs a.
+//   delete aa;       // Vad kommer att hända
+Odefinierat.
+
+//   no_ref(a);       // Bildas temporära objekt?
+Ja, en kopia av a kommer skickas till no_ref.
+//   with_ref(a);     // Bildas temporära objekt?
+Nej, vi skickar referensen till objektet.
+
+output:
+xun@eee:~/cprog09/lab1$ ./a.out 
+a a(my name is a)
+_______________A(char * s)_____my name is a
+_______________A(const A & ref)
+_______________A(const A & ref)
+_______________A()_____________
+____A & operator=(const A & s)_
+_______________A()_____________
+_______________A()_____________
+_______________A()_____________
+_______________A()_____________
+_______________A()_____________
+_______________~A()____________
+Segmentation fault
+
+
+
+/////////////////////////////////////////////////////////////////
+//
+// 1.4
+//
+// Generellt är det ofta en god idé att låta konstruktorer som
+// tar ett argument deklareras som explicit. Varför? Ange ett
+// exempel där det annars kan bli dumt.
+Man förhindrar implicit typkonvertering.
+Om den inte deklareras som explicit så kan man göra på detta viset:
+Vector a = 5;
+
+Som kommer anropa konstruktorn och skapa en vektor av längd 5, vilket inte är speciellt intuitivt vilket i sin tur kan leda till misstal och timtals onödig debugging. :)
+
+
+// operatorn[] måste vara en konstant medlemsfunktion i vissa
+// fall. När och varför? Hur kopierar man vektorn?
+
+Vi måste deklarera den konstant om vi vill kunna komma åt vektorelement trots att vi deklarerat vektorn som konstant. operatorn [] tillåter ju oss att hämta ut värden från vektorn likaväl som den tillåter oss att ändra på dem. I det fall vi deklarerar den konstant tillåter vi endast att folk tittar på elementet, inte att de ändrar det. Genom const-deklarationen lovar vi att inte peta på några värden i klassen.
+
+Man kan kopiera vektorn genom att skicka in den vektor man vill kopiera som argument till konstruktorn.

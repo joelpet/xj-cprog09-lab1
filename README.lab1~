@@ -1,0 +1,60 @@
+/////////////////////////////////////////////////////////////////
+//
+// Personuppgifter (namn, pnr, epost) på dem som gjort labben
+//
+
+
+
+/////////////////////////////////////////////////////////////////
+//
+// 1.2 a)
+// 
+// Vilket värde får variabeln w? 
+
+
+// Hur många varv körs for-loopen i funktionen powerof? 
+
+
+// Varför blir det fel värde?
+
+// 1.2 b)
+
+// Dina tre testfall
+
+// Varför är det så viktigt att testa randvillkoren?
+
+
+/////////////////////////////////////////////////////////////////
+//
+// 1.3 
+// 
+
+// Fyll i egen text i de streckade strängarna nedanför. Vad skriver
+// ditt program ut? Varför? När frigörs objekten?  När skapas 
+// temporära objekt?
+
+
+//   A b = a;         // vad är skillnaden
+//   A c(a);          // mellan dessa
+//   A d;             // tre tekniker?
+
+//   delete aa;       // Vad är problemet här?
+
+//   no_ref(a);       // Bildas temporära objekt?
+//   with_ref(a);     // Bildas temporära objekt?
+
+
+
+/////////////////////////////////////////////////////////////////
+//
+// 1.4
+//
+// Generellt är det ofta en god idé att låta konstruktorer som
+// tar ett argument deklareras som explicit. Varför? Ange ett
+// exempel där det annars kan bli dumt.
+
+
+// operatorn[] måste vara en konstant medlemsfunktion i vissa
+// fall. När och varför? Hur kopierar man vektorn?
+
+
