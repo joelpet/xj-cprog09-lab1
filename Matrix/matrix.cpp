@@ -3,10 +3,10 @@
 
 Matrix::Matrix(unsigned int x, unsigned int y) : 
     num_columns(x), num_rows(y) {
-        matrix = new Vector<wrapperVector >(num_columns);
+        matrix = new Vector<WrapperVector >(num_columns);
 
         for (unsigned int i = 0; i < num_columns; ++i) {
-            (*matrix)[i].setSize(num_rows);
+            (*matrix)[i].set_size(num_rows);
         }
 }
 
@@ -57,10 +57,10 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
     return out;
 }
 
-wrapperVector & Matrix::operator[] (int i) {
+WrapperVector & Matrix::operator[] (int i) {
     return (*matrix)[i];
 }
 
-wrapperVector Matrix::operator[] (int i) const {
+WrapperVector Matrix::operator[] (int i) const {
     return (*matrix)[i];
 }

@@ -21,45 +21,33 @@ all_cxxflags=-I.. $(CXXFLAGS)
 # Extra flags to give to compilers when they are supposed to invoke the linker, `ld'. 
 LDFLAGS=
 
-# Setup binary files directory
-bin_dir=bin
-
-# Source files to compile and link together
-sources=test.cpp matrix.cpp
-objects=$(addprefix $(bin_dir)/,$(sources:.cpp=.o))
-executable=$(bin_dir)/test
-
-maze_sources=matrix.cpp maze.cpp
-maze_objects=$(addprefix $(bin_dir)/,$(maze_sources:.cpp=.o))
-maze_exe=$(bin_dir)/maze
-
-
-##################################################
-## CxxTest
-## =======
-
-# If you want to use python, specify USE_PYTHON=1 on the command line
+# CxxTest: If you want to use python, specify USE_PYTHON=1 on the command line
 ifdef USE_PYTHON
 	testgen=../cxxtestgen.py
 else
 	testgen=../cxxtestgen.pl
 endif
 
+
+##################################################
+## Setup files variables
+## =====================
+
+# Setup binary files directory
+bin_dir=bin
+
+# Source files to compile and link together
+sources=matrix.cpp maze.cpp
+objects=$(addprefix $(bin_dir)/,$(sources:.cpp=.o))
+executable=$(bin_dir)/maze
+
 # Add test suites here in `tests' variable
 tests=matrix_test_suite.h
 
+# CxxTest tests runner output (no need to edit)
 tests_runner_cxx=tests_runner.cpp
 tests_runner_obj=$(bin_dir)/tests_runner.o
 tests_runner_exe=$(bin_dir)/tests_runner
-
-test: $(tests_runner_exe)
-	./$(tests_runner_exe)
-
-$(tests_runner_exe): $(tests_runner_obj)
-	$(CXX) $(LDFLAGS) $(tests_runner_obj) -o $@		
-
-$(tests_runner_cxx): $(tests)
-	$(testgen) -o $@ --error-printer $<
 
 
 
@@ -67,7 +55,9 @@ $(tests_runner_cxx): $(tests)
 ## Ordinary targets
 ## ================
 
-all: $(bin_dir) $(sources) $(executable) $(maze_sources) $(maze_exe)
+all: $(bin_dir) $(sources) $(executable)
+
+tests: $(bin_dir) $(tests) $(tests_runner_exe)
 
 $(bin_dir):
 	-mkdir $(bin_dir)
@@ -75,20 +65,23 @@ $(bin_dir):
 $(executable): $(objects)
 	$(CXX) $(LDFLAGS) $(objects) -o $@		
 
-$(maze_exe): $(maze_objects)
-	$(CXX) $(LDFLAGS) $(maze_objects) -o $@
-
 $(bin_dir)/%.o : %.cpp
 	$(CXX) -c $(CPPFLAGS) $(all_cxxflags) $< -o $@
 
 clean:
-	-rm -f $(objects) $(maze_objects)
+	-rm -f $(objects) $(tests_runner_obj)
 
 run: all
 	./$(executable)
 
-run_maze: maze
-	./$(maze_exe)
+run_tests: tests
+	./$(tests_runner_exe)
+
+$(tests_runner_exe): $(tests_runner_obj)
+	$(CXX) $(LDFLAGS) $(tests_runner_obj) -o $@		
+
+$(tests_runner_cxx): $(tests)
+	$(testgen) -o $@ --error-printer $<
 
 
 ##################################################
