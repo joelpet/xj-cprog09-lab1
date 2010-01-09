@@ -27,4 +27,22 @@ class WrapperVector {
         int & operator[](unsigned int index) {
             return (*vector)[index];
         }
+    
+        int size() const {
+            return vector->size();
+        }
+
+        // WrapperVector & operator=(const WrapperVector & copy) {
+            // if (&(copy.vector) == &(this->vector)) {
+                // return *this;
+            // }
+            // 
+            // delete vector;
+// 
+            // vector = new Vector<int>(copy.size());
+// 
+            // for (int i = 0; i < vector->size(); i++) {
+                // (*vector)[i] = (copy.vector)[i];
+            // }
+        // }
 };

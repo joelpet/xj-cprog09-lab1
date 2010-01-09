@@ -1,5 +1,6 @@
 #include "matrix.h"
 #include "math.h"
+#include "wrong_size.h"
 
 Matrix::Matrix(unsigned int x, unsigned int y) : 
     num_columns(x), num_rows(y) {
@@ -10,13 +11,33 @@ Matrix::Matrix(unsigned int x, unsigned int y) :
         }
 }
 
+Matrix::Matrix(const Matrix & copy) : num_columns(copy.columns()), num_rows(copy.rows()) {
+    matrix = new Vector<WrapperVector >(num_columns);
+
+    for (unsigned int i = 0; i < num_columns; ++i) {
+        (*matrix)[i].set_size(num_rows);
+
+        for (unsigned int i = 0; i < columns(); ++i) {
+            for (unsigned int j = 0; j < rows(); ++j) {
+                (*matrix)[i][j] = copy[i][j];
+            }
+        }
+    }
+}
+
+unsigned int Matrix::columns() const {
+    return num_columns;
+}
+unsigned int Matrix::rows() const {
+    return num_rows;
+}
 // Operators
 
 std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
     int maxDigit = 0;
     int n;
-    for (unsigned int i = 0; i < matrix.num_columns; ++i) {
-        for (unsigned int j = 0; j < matrix.num_rows; j++) {
+    for (unsigned int i = 0; i < matrix.columns(); ++i) {
+        for (unsigned int j = 0; j < matrix.rows(); j++) {
             n = log10(matrix[i][j]);
             if (matrix[i][j] < 0)
                 n++;
@@ -31,10 +52,10 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
 
     out << "[ ";
 
-    for (unsigned int i = 0; i < matrix.num_columns; ++i) {
+    for (unsigned int i = 0; i < matrix.columns(); ++i) {
         if (i != 0)
             out << "; ";
-        for (unsigned int j = 0; j < matrix.num_rows; j++) {
+        for (unsigned int j = 0; j < matrix.rows(); j++) {
             append = "";
             int digit = 0;
             int n = matrix[i][j];
@@ -51,7 +72,7 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
             out << append << matrix[i][j]; // Right aligned 
             // out << matrix[i][j] << append;  // Left aligned
         }
-        if (i+1 < matrix.num_columns)
+        if (i+1 < matrix.columns())
             out << std::endl;
     }
 
@@ -74,10 +95,26 @@ WrapperVector Matrix::operator[] (int i) const {
 /*
  * Tilldelningsoperator (english?)
  */
-Matrix & Matrix::operator=(const Matrix &) {
-    // Fulhack för att börja kompilera, ta bort sen
-    Matrix * B = new Matrix(0,0);
-    return *B;
+Matrix & Matrix::operator=(const Matrix & copy) {
+    if (&(copy.matrix) == &(this->matrix)) {
+        return *this;
+    }
+
+    delete matrix; // get rid of the data we already have allocated
+
+    num_columns = copy.columns();
+    num_rows = copy.rows();
+
+    matrix = new Vector<WrapperVector >(columns());
+
+    // FIXME need fixing in case of more then two dimensions
+    for (unsigned int i = 0; i < columns(); i++) {
+        for (unsigned int j = 0; j < rows(); j++) {
+            (*matrix)[i][j] = copy[i][j];
+        }
+    }
+
+    return *this;
 }
 
 /*
@@ -87,8 +124,21 @@ Matrix & Matrix::operator=(const Matrix &) {
  *
  * A new matrix will be returned
  */
-Matrix operator+(const Matrix &, const Matrix &) {
-    return Matrix(0,0);
+Matrix operator+(const Matrix & A, const Matrix & B) {
+    if (A.columns() == B.columns() && A.rows() == B.rows()) {
+        Matrix C(A.columns(), A.rows());
+        for (unsigned int i = 0; i < A.columns(); ++i) {
+            for (unsigned int j = 0; j <A.rows(); ++j) {
+                C[i][j] = A[i][j] + B[i][j];
+            }
+        }
+
+        return C;
+
+    }
+    else {
+        throw WrongSizeException();
+    }
 }
 /*
  * Subtraction
@@ -98,8 +148,20 @@ Matrix operator+(const Matrix &, const Matrix &) {
  *
  * A new matrix will be returned
  */
-Matrix operator-(const Matrix &, const Matrix &) {
-    return Matrix(0,0);
+Matrix operator-(const Matrix & A, const Matrix & B) {
+    if (A.columns() == B.columns() && A.rows() == B.rows()) {
+        Matrix C(A);
+
+        C.negate();
+
+        C = B + C;
+
+        return C;
+    
+    }
+    else {
+        throw WrongSizeException();
+    }
 }
 
 /*
@@ -120,8 +182,14 @@ Matrix operator*(const Matrix &, const Matrix &) {
  * Scalar multiplication
  *
  */
-Matrix operator*(const Matrix &, int) {
-    return Matrix(0,0);
+Matrix operator*(const Matrix & A, int n) {
+    Matrix C(A);
+    for (unsigned int i = 0; i < A.columns(); i++) {
+        for (unsigned int j = 0; j < A.rows(); ++j) {
+            C[i][j] *= n;
+        }
+    }
+    return C;
 }
 
 
@@ -139,14 +207,35 @@ Matrix operator*(int a, const Matrix & B) {
  *
  * If the matrix is square, make the matrix into the identity matrix
  */
-void Matrix::identity() {}
+void Matrix::identity() {
+    // We need square matrices
+    if (rows() != columns()) {
+        throw WrongSizeException();
+    } 
+    else {
+        for (unsigned int i = 0; i < columns(); i++) {
+            for (unsigned int j = 0; j < rows(); ++j) {
+                if (i == j)
+                    (*matrix)[i][j] = 1;
+                else
+                    (*matrix)[i][j] = 0;
+            }
+        }
+    }
+}
 
 /*
  * Negation
  *
  * Negate every cell in the matrix
  */
-void Matrix::negate() {}  
+void Matrix::negate() {
+    for (unsigned int i = 0; i < columns(); i++) {
+        for (unsigned int j = 0; j < rows(); ++j) {
+            (*matrix)[i][j] *= -1;
+        }
+    }
+}
 
 /*
  * Transpose
@@ -155,4 +244,25 @@ void Matrix::negate() {}
  * Returns a new matrix
  * XXX: might need diffrent return type
  */
-void Matrix::transpose() {}
+void Matrix::transpose() {
+    Vector<WrapperVector > * old_matrix = matrix;
+    int old_columns = columns();
+    int old_rows = rows();
+
+    num_columns = old_rows;
+    num_rows = old_columns;
+
+    matrix = new Vector<WrapperVector >(num_columns);
+
+    for (unsigned int i = 0; i < num_columns; ++i) {
+        (*matrix)[i].set_size(num_rows);
+
+        for (unsigned int i = 0; i < columns(); ++i) {
+            for (unsigned int j = 0; j < rows(); ++j) {
+                (*matrix)[i][j] = (*old_matrix)[j][i];
+            }
+        }
+    }
+
+    delete old_matrix;
+}

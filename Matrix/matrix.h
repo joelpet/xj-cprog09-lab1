@@ -2,17 +2,19 @@
 
 class Matrix {
     private:
+        // Variabels
+        unsigned int num_columns;       // cannot be const, needs to be changable in copy constructor
+        unsigned int num_rows;
+
         Vector<WrapperVector> * matrix;
         int digits(int);
+        
     public:
         // Constructors
         Matrix(unsigned int x, unsigned int y);
         Matrix(const Matrix &); // Copy constructor
 
 
-        // Variabels
-        const unsigned int num_columns;
-        const unsigned int num_rows;
 
         // operators
         WrapperVector & operator[] (int);
@@ -20,6 +22,9 @@ class Matrix {
         Matrix & operator=(const Matrix &);     // Tilldelningsoperator (english?)
 
         // other methods
+        unsigned int columns() const;
+        unsigned int rows() const;
+        
         void identity();    // If square, make matrix into identity matrix
         void negate();      // Negate whole matrix
         void transpose();   // Transpose matrix
