@@ -12,8 +12,9 @@ class Matrix {
         const unsigned int num_columns;
         const unsigned int num_rows;
         explicit Matrix(unsigned int x, unsigned int y);
-        WrapperVector & operator[] (int);
-        WrapperVector operator[] (int) const;
+        ~Matrix();
+        WrapperVector & operator[] (unsigned int);
+        WrapperVector operator[] (unsigned int) const;
 };
 
 std::ostream & operator<<(std::ostream & out, const Matrix & matrix);

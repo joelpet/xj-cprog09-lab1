@@ -14,6 +14,10 @@ class WrapperVector {
 
         explicit WrapperVector() : is_size_set(false) {}
 
+        ~WrapperVector() {
+            delete vector;
+        }
+
         void set_size(int size) {
             if (is_size_set)
                 return;

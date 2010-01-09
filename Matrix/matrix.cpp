@@ -10,6 +10,10 @@ Matrix::Matrix(unsigned int x, unsigned int y) :
         }
 }
 
+Matrix::~Matrix() {
+    delete matrix;
+}
+
 std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
     int maxDigit = 0;
     int n;
@@ -57,10 +61,18 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
     return out;
 }
 
-WrapperVector & Matrix::operator[] (int i) {
+WrapperVector & Matrix::operator[] (unsigned int i) {
+    if (i >= num_columns) { 
+        throw std::out_of_range("index out of range");
+    }
+
     return (*matrix)[i];
 }
 
-WrapperVector Matrix::operator[] (int i) const {
+WrapperVector Matrix::operator[] (unsigned int i) const {
+    if (i >= num_columns) { 
+        throw std::out_of_range("index out of range");
+    }
+
     return (*matrix)[i];
 }

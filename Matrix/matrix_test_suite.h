@@ -33,7 +33,6 @@ class MatrixTestSuite : public CxxTest::TestSuite {
 
 
         void test_direct_mutate_access(void) {
-            // matris[3][1] = x;
             (*a)[5][2] = 7;           // tilldelning till element
 
             TS_ASSERT_EQUALS((*a)[5][2], 7);
@@ -56,6 +55,12 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             // >> `[1 2 0; 2 5 -1; 4 10 -1]'
 
             TS_WARN("Not yet implemented!");
+        }
+
+        void test_illegal_access(void) {
+            TS_ASSERT_THROWS(a[1][5], std::out_of_range);
+//            TS_ASSERT_THROWS(a[10][1], std::out_of_range);
+//            TS_ASSERT_THROWS(a[10][5], std::out_of_range);
         }
 
 };
