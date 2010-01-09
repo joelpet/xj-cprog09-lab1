@@ -45,3 +45,7 @@ clean:
 run: all
 	./$(executable)
 
+compileMaze:
+	g++ -Wall -Wextra matrix.cpp maze.cpp
+maze: compileMaze
+	./a.out
