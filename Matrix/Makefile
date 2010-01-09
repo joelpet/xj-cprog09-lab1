@@ -18,7 +18,7 @@ all_cxxflags=$(CXXFLAGS)
 LDFLAGS=
 
 # Source files to compile and link together
-sources=test.cpp Matrix.cpp
+sources=test.cpp matrix.cpp
 
 # Substitution variable that turns a list of *.cpp to $(bin_dir)/*.o
 bin_dir=bin
