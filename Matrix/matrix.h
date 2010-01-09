@@ -18,5 +18,6 @@ class Matrix {
 };
 
 std::ostream & operator<<(std::ostream & out, const Matrix & matrix);
+std::ostream & operator>>(std::ostream & out, const Matrix & matrix);
 
 #endif // header guard

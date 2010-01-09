@@ -28,9 +28,6 @@ class MatrixTestSuite : public CxxTest::TestSuite {
         // att ett konstant matrisobjekt returnerar skrivskyddat element
         // att matrisen är nollindexerad
         // tilldelning fungerar
-        // operator++ på ett element fungerar
-        // ogiltig åtkomst inte fungerar
-
 
         void test_direct_mutate_access(void) {
             (*a)[5][2] = 7;           // tilldelning till element
@@ -57,10 +54,14 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             TS_WARN("Not yet implemented!");
         }
 
+        void test_increment_on_specific_element(void) {
+
+        }
+
         void test_illegal_access(void) {
-            TS_ASSERT_THROWS(a[1][5], std::out_of_range);
-//            TS_ASSERT_THROWS(a[10][1], std::out_of_range);
-//            TS_ASSERT_THROWS(a[10][5], std::out_of_range);
+            TS_ASSERT_THROWS((*a)[1][5], std::out_of_range);
+            TS_ASSERT_THROWS((*a)[10][1], std::out_of_range);
+            TS_ASSERT_THROWS((*a)[10][5], std::out_of_range);
         }
 
 };

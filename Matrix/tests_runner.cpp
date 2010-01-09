@@ -46,9 +46,15 @@ public:
  void runTest() { suite_MatrixTestSuite.test_cin_reading(); }
 } testDescription_MatrixTestSuite_test_cin_reading;
 
+static class TestDescription_MatrixTestSuite_test_increment_on_specific_element : public CxxTest::RealTestDescription {
+public:
+ TestDescription_MatrixTestSuite_test_increment_on_specific_element() : CxxTest::RealTestDescription( Tests_MatrixTestSuite, suiteDescription_MatrixTestSuite, 60, "test_increment_on_specific_element" ) {}
+ void runTest() { suite_MatrixTestSuite.test_increment_on_specific_element(); }
+} testDescription_MatrixTestSuite_test_increment_on_specific_element;
+
 static class TestDescription_MatrixTestSuite_test_illegal_access : public CxxTest::RealTestDescription {
 public:
- TestDescription_MatrixTestSuite_test_illegal_access() : CxxTest::RealTestDescription( Tests_MatrixTestSuite, suiteDescription_MatrixTestSuite, 60, "test_illegal_access" ) {}
+ TestDescription_MatrixTestSuite_test_illegal_access() : CxxTest::RealTestDescription( Tests_MatrixTestSuite, suiteDescription_MatrixTestSuite, 64, "test_illegal_access" ) {}
  void runTest() { suite_MatrixTestSuite.test_illegal_access(); }
 } testDescription_MatrixTestSuite_test_illegal_access;
 
