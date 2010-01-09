@@ -1,3 +1,7 @@
+##################################################
+## Configuration
+## =============
+
 # Every Makefile should contain this line:
 SHELL=/bin/sh
 
@@ -17,35 +21,50 @@ all_cxxflags=$(CXXFLAGS)
 # Extra flags to give to compilers when they are supposed to invoke the linker, `ld'. 
 LDFLAGS=
 
+# Setup binary files directory
+bin_dir=bin
+
 # Source files to compile and link together
 sources=test.cpp matrix.cpp
-
-# Substitution variable that turns a list of *.cpp to $(bin_dir)/*.o
-bin_dir=bin
 objects=$(addprefix $(bin_dir)/,$(sources:.cpp=.o))
 executable=$(bin_dir)/test
 
-all: $(bin_dir) $(sources) $(executable)
+maze_sources=matrix.cpp maze.cpp
+maze_objects=$(addprefix $(bin_dir)/,$(maze_sources:.cpp=.o))
+maze_exe=$(bin_dir)/maze
 
-# Make sure the bin dir exists
+
+##################################################
+## Targets
+## =======
+
+all: $(bin_dir) $(sources) $(executable) $(maze_sources) $(maze_exe)
+
 $(bin_dir):
 	-mkdir $(bin_dir)
 
-# $@ expands to the file name of the target
 $(executable): $(objects)
-	$(CXX) $(LDFLAGS) $(objects) -o $@
+	$(CXX) $(LDFLAGS) $(objects) -o $@		
 
-# Implicit rule (http://www.gnu.org/software/make/manual/make.html#Implicit-Rules)
+$(maze_exe): $(maze_objects)
+	$(CXX) $(LDFLAGS) $(maze_objects) -o $@
+
 $(bin_dir)/%.o : %.cpp
 	$(CXX) -c $(CPPFLAGS) $(all_cxxflags) $< -o $@
 
 clean:
-	-rm -f $(objects)
+	-rm -f $(objects) $(maze_objects)
 
 run: all
 	./$(executable)
 
-compileMaze:
-	g++ -Wall -Wextra matrix.cpp maze.cpp
-maze: compileMaze
-	./a.out
+run_maze: maze
+	./$(maze_exe)
+
+
+##################################################
+## Notes
+## =====
+
+# $@ expands to the file name of the target
+
