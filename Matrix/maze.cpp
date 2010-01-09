@@ -127,8 +127,19 @@ int main()
 
     // använd matrisklassen för att lösa matriserna ovan!
 
+    std::string row;
 
-    Matrix * a = buildMatrix(large);
+    Matrix * a = buildMatrix(small);
+    pathFinder(*a);
+
+    getline(std::cin, row);
+
+    a = buildMatrix(medium);
+    pathFinder(*a);
+
+    getline(std::cin, row);
+
+    a = buildMatrix(large);
     pathFinder(*a);
 
     return 0; 

@@ -10,6 +10,8 @@ Matrix::Matrix(unsigned int x, unsigned int y) :
         }
 }
 
+// Operators
+
 std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
     int maxDigit = 0;
     int n;
@@ -57,6 +59,7 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
     return out;
 }
 
+
 WrapperVector & Matrix::operator[] (int i) {
     return (*matrix)[i];
 }
@@ -64,3 +67,92 @@ WrapperVector & Matrix::operator[] (int i) {
 WrapperVector Matrix::operator[] (int i) const {
     return (*matrix)[i];
 }
+
+// 1.3
+
+
+/*
+ * Tilldelningsoperator (english?)
+ */
+Matrix & Matrix::operator=(const Matrix &) {
+    // Fulhack för att börja kompilera, ta bort sen
+    Matrix * B = new Matrix(0,0);
+    return *B;
+}
+
+/*
+ * Addition
+ *
+ * the matrices need to be of equal size
+ *
+ * A new matrix will be returned
+ */
+Matrix operator+(const Matrix &, const Matrix &) {
+    return Matrix(0,0);
+}
+/*
+ * Subtraction
+ *
+ * The matrices need to be of equal size
+ * XXX: Note: could it be implemented with negation and addition? is that easier?
+ *
+ * A new matrix will be returned
+ */
+Matrix operator-(const Matrix &, const Matrix &) {
+    return Matrix(0,0);
+}
+
+/*
+ * Matrix multiplication
+ *
+ * Only applicable if the number of columns of the left matrix is the same as
+ * the number of rows of the right matrix.
+ *
+ * If matrix A is m*n and B is n*p then A*B is m*p
+ *
+ * A new matrix will be returned
+ */
+Matrix operator*(const Matrix &, const Matrix &) {
+    return Matrix(0,0);
+}
+
+/*
+ * Scalar multiplication
+ *
+ */
+Matrix operator*(const Matrix &, int) {
+    return Matrix(0,0);
+}
+
+
+/*
+ * Scalar mutliplication
+ */
+Matrix operator*(int a, const Matrix & B) {
+    return B*a;
+}
+
+// other methods
+
+/*
+ * Identity
+ *
+ * If the matrix is square, make the matrix into the identity matrix
+ */
+void Matrix::identity() {}
+
+/*
+ * Negation
+ *
+ * Negate every cell in the matrix
+ */
+void Matrix::negate() {}  
+
+/*
+ * Transpose
+ *
+ * Turn rows into columns and vice versa
+ * Returns a new matrix
+ * XXX: might need diffrent return type
+ */
+void Matrix::transpose() {}
