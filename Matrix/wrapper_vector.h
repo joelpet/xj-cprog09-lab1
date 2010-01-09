@@ -1,23 +1,23 @@
 #include "vector.h"
 
-class wrapperVector {
+class WrapperVector {
     private:
         Vector<int> * vector;
-        bool isSizeSet;
+        bool is_size_set;
     public:
-        explicit wrapperVector(int size) : isSizeSet(true) {
+        explicit WrapperVector(int size) : is_size_set(true) {
             vector = new Vector<int>(size);
         }
 
-        explicit wrapperVector() : isSizeSet(false) {}
+        explicit WrapperVector() : is_size_set(false) {}
 
-        void setSize(int size) {
-            if (isSizeSet)
+        void set_size(int size) {
+            if (is_size_set)
                 return;
-            isSizeSet = true;
+
+            is_size_set = true;
 
             vector = new Vector<int>(size);
-
         }
 
         int operator[](unsigned int index) const {
