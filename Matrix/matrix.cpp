@@ -173,9 +173,21 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
  * If matrix A is m*n and B is n*p then A*B is m*p
  *
  * A new matrix will be returned
+ *
+ * This algorithm runs in O(n^3)
  */
-Matrix operator*(const Matrix &, const Matrix &) {
-    return Matrix(0,0);
+Matrix operator*(const Matrix & A, const Matrix & B) {
+    Matrix C(A.columns(), B.rows());
+
+    for (unsigned int i = 0; i < A.columns(); i++) {
+        for (unsigned int j = 0; j < A.rows(); ++j) {
+            for (unsigned int k = 0; k < A.rows(); ++k) {
+                C[i][j] += A[i][k]*B[k][j];
+            }
+        }
+    }
+
+    return C;
 }
 
 /*
