@@ -1,6 +1,6 @@
 ##################################################
-## Configuration
-## =============
+## General configuration
+## =====================
 
 # Every Makefile should contain this line:
 SHELL=/bin/sh
@@ -16,7 +16,7 @@ CPPFLAGS=
 CXXFLAGS=-Wall -Wextra
 
 # Add any custom flags before $(CXXFLAGS) below, that are required for this build
-all_cxxflags=$(CXXFLAGS)
+all_cxxflags=-I.. $(CXXFLAGS)
 
 # Extra flags to give to compilers when they are supposed to invoke the linker, `ld'. 
 LDFLAGS=
@@ -35,8 +35,37 @@ maze_exe=$(bin_dir)/maze
 
 
 ##################################################
-## Targets
+## CxxTest
 ## =======
+
+# If you want to use python, specify USE_PYTHON=1 on the command line
+ifdef USE_PYTHON
+	testgen=../cxxtestgen.py
+else
+	testgen=../cxxtestgen.pl
+endif
+
+# Add test suites here in `tests' variable
+tests=matrix_test_suite.h
+
+tests_runner_cxx=tests_runner.cpp
+tests_runner_obj=$(bin_dir)/tests_runner.o
+tests_runner_exe=$(bin_dir)/tests_runner
+
+test: $(tests_runner_exe)
+	./$(tests_runner_exe)
+
+$(tests_runner_exe): $(tests_runner_obj)
+	$(CXX) $(LDFLAGS) $(tests_runner_obj) -o $@		
+
+$(tests_runner_cxx): $(tests)
+	$(testgen) -o $@ --error-printer $<
+
+
+
+##################################################
+## Ordinary targets
+## ================
 
 all: $(bin_dir) $(sources) $(executable) $(maze_sources) $(maze_exe)
 
