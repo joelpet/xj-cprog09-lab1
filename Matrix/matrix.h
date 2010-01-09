@@ -1,3 +1,7 @@
+#ifndef MATRIX_H
+#define MATRIX_H
+
+#include "vector.h"
 #include "wrapper_vector.h"
 
 class Matrix {
@@ -13,3 +17,5 @@ class Matrix {
 };
 
 std::ostream & operator<<(std::ostream & out, const Matrix & matrix);
+
+#endif // header guard

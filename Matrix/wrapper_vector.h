@@ -1,3 +1,6 @@
+#ifndef WRAPPER_VECTOR_H 
+#define WRAPPER_VECTOR_H
+
 #include "vector.h"
 
 class WrapperVector {
@@ -28,3 +31,5 @@ class WrapperVector {
             return (*vector)[index];
         }
 };
+
+#endif // header guard
