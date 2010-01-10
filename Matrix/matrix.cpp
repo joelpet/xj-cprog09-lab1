@@ -9,19 +9,12 @@ Matrix::Matrix() : num_columns(0), num_rows(0) {
 Matrix::Matrix(unsigned int x, unsigned int y) : 
     num_columns(x), num_rows(y) {
         initialize();
-//        matrix = new Vector<WrapperVector >(num_columns);
-
-//        for (unsigned int i = 0; i < num_columns; ++i) {
-//            (*matrix)[i].set_size(num_rows);
-//        }
 }
 
 Matrix::Matrix(const Matrix & copy) : num_columns(copy.columns()), num_rows(copy.rows()) {
-    matrix = new Vector<WrapperVector >(num_columns);
+    initialize();
 
     for (unsigned int i = 0; i < num_columns; ++i) {
-        (*matrix)[i].set_size(num_rows);
-
         for (unsigned int i = 0; i < columns(); ++i) {
             for (unsigned int j = 0; j < rows(); ++j) {
                 (*matrix)[i][j] = copy[i][j];
