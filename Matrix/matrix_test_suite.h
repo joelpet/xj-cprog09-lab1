@@ -328,10 +328,18 @@ class MatrixTestSuite : public CxxTest::TestSuite {
 
         // Mix between 1.1 and 1.3
         void test_mixed_operations(void) {
+            Matrix m1, m2, tmp, res;
+            std::stringstream ss1("[ 3 3 3 ; 3 3 3 ; 3 3 3 ; 3 3 3 ]"); 
+            std::stringstream ss2("[ 1 2 0 ; 1 1 0 ; 2 1 1 ; 3 0 1 ]"); 
+            std::stringstream ssr("[ 3 6 0 ; 3 3 0 ; 6 3 3 ; 9 0 3 ]"); 
 
+            ss1 >> m1;
+            ss2 >> m2;
+            ssr >> res;
 
+            tmp = m1[2][3]*m2;
 
-            TS_WARN("Not implemented");
+            TS_ASSERT_EQUALS(tmp, res);
         }
 };
 
