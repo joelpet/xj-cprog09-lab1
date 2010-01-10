@@ -45,5 +45,6 @@ Matrix operator-(const Matrix &, const Matrix &);
 Matrix operator*(const Matrix &, const Matrix &);
 Matrix operator*(int, const Matrix &);                // Scalar multiplication
 Matrix operator*(const Matrix &, int );                // Scalar multiplication
+bool operator==(const Matrix &, const Matrix &);
 
 #endif // header guard

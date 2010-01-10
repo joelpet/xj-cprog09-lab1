@@ -16,11 +16,9 @@ Matrix::Matrix(unsigned int x, unsigned int y) : num_columns(x), num_rows(y) {
 }
 
 Matrix::Matrix(const Matrix & copy) : num_columns(copy.columns()), num_rows(copy.rows()) {
-    matrix = new Vector<WrapperVector >(num_columns);
+    initialize();
 
     for (unsigned int i = 0; i < num_columns; ++i) {
-        (*matrix)[i].set_size(num_rows);
-
         for (unsigned int i = 0; i < columns(); ++i) {
             for (unsigned int j = 0; j < rows(); ++j) {
                 (*matrix)[i][j] = copy[i][j];
@@ -252,12 +250,16 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
  * This algorithm runs in O(n^3)
  */
 Matrix operator*(const Matrix & A, const Matrix & B) {
+    if (A.rows() != B.columns())
+        throw WrongSizeException();
+
     Matrix C(A.columns(), B.rows());
 
     for (unsigned int i = 0; i < A.columns(); i++) {
-        for (unsigned int j = 0; j < A.rows(); ++j) {
+        for (unsigned int j = 0; j < B.rows(); ++j) {
             for (unsigned int k = 0; k < A.rows(); ++k) {
-                C[i][j] += A[i][k]*B[k][j];
+                std::cout << "i, j, k\t" << i << ", " << j << ", " << k << std::endl;
+                C[i][j] += A[i][k] * B[k][j];
             }
         }
     }
@@ -284,7 +286,22 @@ Matrix operator*(const Matrix & A, int n) {
  * Scalar mutliplication
  */
 Matrix operator*(int a, const Matrix & B) {
-    return B*a;
+    std::cout << "operator*(int, matrix)" << std::endl;
+    return B * a;
+}
+
+bool operator==(const Matrix & A, const Matrix & B) {
+    if (A.rows() != B.rows() || A.columns() != B.columns())
+        return false;
+
+    for (unsigned int i = 0; i < A.columns(); i++) {
+        for (unsigned int j = 0; j < A.rows(); ++j) {
+            if (A[i][j] != B[i][j])
+                return false;
+        }
+    }
+
+    return true;
 }
 
 // other methods
