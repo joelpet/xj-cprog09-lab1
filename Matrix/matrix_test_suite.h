@@ -96,7 +96,7 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             bss << (*b);
 
             TS_ASSERT_EQUALS(ass.str(), "[ 0 0 0 0 0 0 0\n; 0 0 0 0 0 0 0\n; 0 0 0 0 0 0 0\n; 0 0 0 0 0 0 0 ]\n");
-            TS_ASSERT_EQUALS(bss.str(), "[ -47 -30 -13   4\n;  21  38  55  72\n;  89 106 123 140 ]\n");
+            TS_ASSERT_EQUALS(bss.str(), "[ -47  21  89\n; -30  38 106\n; -13  55 123\n;   4  72 140 ]\n");
         }
 
         /**
@@ -186,9 +186,6 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             TS_ASSERT_EQUALS(C, *one * *one);
 
             TS_ASSERT_EQUALS(*empty2, *empty1 * *empty2);
-
-            std::cin >> *empty1;
-            std::cout << *empty1;
         }
 
         void test_scalar_multiplication(void) {
