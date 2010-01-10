@@ -186,6 +186,16 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             TS_ASSERT_EQUALS(C, *one * *one);
 
             TS_ASSERT_EQUALS(*empty2, *empty1 * *empty2);
+
+            std::stringstream user_input1("[ 1 0 2 ; -1 3 1 ]");
+            user_input1 >> (*A);
+
+            std::stringstream user_input2("[ 3 1 ; 2 1 ; 1 0 ]");
+            user_input2 >> (*B);
+
+            std::stringstream user_input3("[ 5 1 ; 4 2 ]");
+            user_input3 >> C;
+            TS_ASSERT_EQUALS(*A * *B, C);
         }
 
         void test_scalar_multiplication(void) {
@@ -193,6 +203,16 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             (*one2)[0][0] = 9;
             (*one)[0][0] = 3;
             TS_ASSERT_EQUALS(*one2, *one * 3);
+
+            TS_ASSERT_EQUALS(*a, *a * 5);
+
+            std::stringstream user_input1("[ 5 1 ; 4 2 ]");
+            user_input1 >> *A;
+
+            std::stringstream user_input2("[ 65 13 ; 52 26 ]");
+            user_input2 >> *C;
+
+            TS_ASSERT_EQUALS(*C, *A * 13);
         }
 };
 

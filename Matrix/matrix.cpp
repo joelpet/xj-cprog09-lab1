@@ -277,12 +277,12 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
         if (A.rows() != B.columns())
             throw WrongSizeException();
 
-        Matrix C(A.columns(), B.rows());
+        Matrix C(A.rows(), B.columns());
 
-        for (unsigned int i = 0; i < A.columns(); i++) {
-            for (unsigned int j = 0; j < B.rows(); ++j) {
-                for (unsigned int k = 0; k < A.rows(); ++k) {
-                    C[i][j] += A[i][k] * B[k][j];
+        for (unsigned int i = 0; i < A.rows(); i++) {
+            for (unsigned int j = 0; j < B.columns(); ++j) {
+                for (unsigned int k = 0; k < A.columns(); ++k) {
+                    C[j][i] += A[k][i] * B[j][k];
                 }
             }
         }
