@@ -175,6 +175,12 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             TS_ASSERT_THROWS((*A) * (*A), WrongSizeException);
         }
 
+        void test_assignment_operator(void) {
+            (*A) = (*A);
+            (*A) = (*B);
+
+        }
+
         void test_comparison_operator(void) {
             TS_ASSERT_EQUALS(*one2, *one);
         }

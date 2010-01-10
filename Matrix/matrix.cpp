@@ -193,16 +193,11 @@ const WrapperVector & Matrix::operator[] (unsigned int i) const {
  * Assignment operator
  */
 Matrix & Matrix::operator=(const Matrix & copy) {
-    if (&(copy.matrix) == &(this->matrix)) {
+    if (&copy == this) {
         return *this;
     }
 
-    delete matrix; // get rid of the data we already have allocated
-
-    num_columns = copy.columns();
-    num_rows = copy.rows();
-
-    matrix = new Vector<WrapperVector >(columns());
+    set_dimensions(copy.rows(), copy.columns());
 
     // FIXME need fixing in case of more then two dimensions
     for (unsigned int i = 0; i < columns(); i++) {
