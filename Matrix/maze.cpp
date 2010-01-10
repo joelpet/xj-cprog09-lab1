@@ -127,8 +127,19 @@ int main()
 
     // använd matrisklassen för att lösa matriserna ovan!
 
+    std::string row;
 
-    Matrix * a = buildMatrix(large);
+    Matrix * a = buildMatrix(small);
+    pathFinder(*a);
+
+    getline(std::cin, row);
+
+    a = buildMatrix(medium);
+    pathFinder(*a);
+
+    getline(std::cin, row);
+
+    a = buildMatrix(large);
     pathFinder(*a);
 
     return 0; 
@@ -170,8 +181,8 @@ void pathFinder(Matrix & a) {
 
     solove(start, finish, a);
 
-    for (unsigned int i = 0; i < a.num_columns; i++) {
-        for (unsigned int j = 0; j < a.num_rows; j++) {
+    for (unsigned int i = 0; i < a.columns(); i++) {
+        for (unsigned int j = 0; j < a.rows(); j++) {
             switch (a[i][j]) {
                 case 0:
                     std::cout << '#';
@@ -199,7 +210,7 @@ bool solove(Cell start, Cell finish, Matrix & a) {
         return true;
     }
 
-    if (start.x >= (int)a.num_columns || start.y >= (int)a.num_rows 
+    if (start.x >= (int)a.columns() || start.y >= (int)a.rows() 
             || start.x < 0 || start.y < 0) 
         return false;
 
@@ -240,12 +251,12 @@ bool solove(Cell start, Cell finish, Matrix & a) {
 }
 
 Cell entrance(Matrix & a) {
-    for (unsigned int i = 0; i < a.num_columns; i++) {
+    for (unsigned int i = 0; i < a.columns(); i++) {
         if (a[i][0] == 1) {
             return Cell(i,0);
         }
     }
-    for (unsigned int i = 0; i < a.num_rows; i++) {
+    for (unsigned int i = 0; i < a.rows(); i++) {
         if (a[0][i] == 1) {
             return Cell(0,i);
         }
@@ -254,14 +265,14 @@ Cell entrance(Matrix & a) {
 }
 
 Cell exit(Matrix & a) {
-    for (unsigned int i = 0; i < a.num_columns; i++) {
-        if (a[i][a.num_rows-1] == 1) {
-            return Cell(i,a.num_rows-1);
+    for (unsigned int i = 0; i < a.columns(); i++) {
+        if (a[i][a.rows()-1] == 1) {
+            return Cell(i,a.rows()-1);
         }
     }
-    for (unsigned int i = 0; i < a.num_rows; i++) {
-        if (a[a.num_columns-1][i] == 1) {
-            return Cell(a.num_columns-1,i);
+    for (unsigned int i = 0; i < a.rows(); i++) {
+        if (a[a.columns()-1][i] == 1) {
+            return Cell(a.columns()-1,i);
         }
     }
     return Cell(-1,-1);
