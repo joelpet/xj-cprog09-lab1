@@ -57,13 +57,13 @@ tests_runner_exe=$(bin_dir)/tests_runner
 
 all: $(bin_dir) $(sources) $(executable)
 
-tests: $(bin_dir) $(tests) $(tests_runner_exe)
+tests: clean $(bin_dir) $(tests) $(tests_runner_exe)
 
 $(bin_dir):
 	-mkdir $(bin_dir)
 
 $(executable): $(objects)
-	$(CXX) $(LDFLAGS) $(objects) -o $@		
+	$(CXX) $(LDFLAGS) $^ -o $@		
 
 $(bin_dir)/%.o : %.cpp
 	$(CXX) -c $(CPPFLAGS) $(all_cxxflags) $< -o $@
@@ -77,11 +77,11 @@ run: all
 run_tests: tests
 	./$(tests_runner_exe)
 
-$(tests_runner_exe): $(tests_runner_obj)
-	$(CXX) $(LDFLAGS) $(tests_runner_obj) -o $@		
+$(tests_runner_exe): $(tests_runner_obj) $(bin_dir)/matrix.o
+	$(CXX) $(LDFLAGS) $^ -o $@		
 
 $(tests_runner_cxx): $(tests)
-	$(testgen) -o $@ --error-printer $<
+	$(testgen) -o $@ --error-printer $^
 
 
 ##################################################

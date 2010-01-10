@@ -25,6 +25,10 @@ Matrix::Matrix(const Matrix & copy) : num_columns(copy.columns()), num_rows(copy
     }
 }
 
+Matrix::~Matrix() {
+    delete matrix;
+}
+
 unsigned int Matrix::columns() const {
     return num_columns;
 }
@@ -80,12 +84,18 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
     return out;
 }
 
-
-WrapperVector & Matrix::operator[] (int i) {
+WrapperVector & Matrix::operator[] (unsigned int i) {
+    if (i >= num_columns) { 
+        throw std::out_of_range("index out of range");
+    }
     return (*matrix)[i];
 }
 
-WrapperVector Matrix::operator[] (int i) const {
+WrapperVector Matrix::operator[] (unsigned int i) const {
+    if (i >= num_columns) { 
+        throw std::out_of_range("index out of range");
+    }
+
     return (*matrix)[i];
 }
 

@@ -1,3 +1,6 @@
+#ifndef VECTOR_H
+#define VECTOR_H
+
 #include <iostream>
 #include <stdexcept>
 
@@ -11,16 +14,14 @@ class Vector {
         static const unsigned int capacityIncreaseFactor = 2;
         T * vector;
     public:
-        explicit Vector() {
-            capacity = 1;
-            vectorSize = 0;
+        explicit Vector() : capacity(1), vectorSize(0) {
             vector = new T[capacity];
         }
 
         explicit Vector(unsigned int space)  : capacity(space), vectorSize(space) {
             vector = new T[capacity];
             for (unsigned int i = 0; i < capacity; i++) {
-                vector[i] = T();
+//                vector[i] = T();
             }
         }
 
@@ -250,3 +251,5 @@ class Vector {
 
 
 };
+
+#endif // header guard

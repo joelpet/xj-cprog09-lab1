@@ -1,3 +1,6 @@
+#ifndef WRAPPER_VECTOR_H 
+#define WRAPPER_VECTOR_H
+
 #include "vector.h"
 
 class WrapperVector {
@@ -10,6 +13,10 @@ class WrapperVector {
         }
 
         explicit WrapperVector() : is_size_set(false) {}
+
+        ~WrapperVector() {
+            delete vector;
+        }
 
         void set_size(int size) {
             if (is_size_set)
@@ -46,3 +53,5 @@ class WrapperVector {
             // }
         // }
 };
+
+#endif // header guard

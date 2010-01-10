@@ -1,3 +1,7 @@
+#ifndef MATRIX_H
+#define MATRIX_H
+
+#include "vector.h"
 #include "wrapper_vector.h"
 
 class Matrix {
@@ -13,12 +17,13 @@ class Matrix {
         // Constructors
         Matrix(unsigned int x, unsigned int y);
         Matrix(const Matrix &); // Copy constructor
+        ~Matrix();
 
 
 
         // operators
-        WrapperVector & operator[] (int);
-        WrapperVector operator[] (int) const;
+        WrapperVector & operator[] (unsigned int);
+        WrapperVector operator[] (unsigned int) const;
         Matrix & operator=(const Matrix &);     // Tilldelningsoperator (english?)
 
         // other methods
@@ -38,3 +43,5 @@ Matrix operator-(const Matrix &, const Matrix &);
 Matrix operator*(const Matrix &, const Matrix &);
 Matrix operator*(int, const Matrix &);                // Scalar multiplication
 Matrix operator*(const Matrix &, int );                // Scalar multiplication
+
+#endif // header guard
