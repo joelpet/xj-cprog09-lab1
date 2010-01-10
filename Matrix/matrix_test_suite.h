@@ -22,6 +22,7 @@ class MatrixTestSuite : public CxxTest::TestSuite {
         Matrix * A;
         Matrix * B;
         Matrix * C;
+        Matrix * D;
 
     public:
 
@@ -51,6 +52,9 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             A = new Matrix(10,20);
             B = new Matrix(20,10);
             C = new Matrix(10,10);
+            D = new Matrix(10,10);
+
+            (*D)[9][9] = 4;
         }
 
         /**
@@ -67,6 +71,7 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             delete A;
             delete B;
             delete C;
+            delete D;
         }
 
         void test_direct_access(void) {
@@ -176,13 +181,36 @@ class MatrixTestSuite : public CxxTest::TestSuite {
         }
 
         void test_assignment_operator(void) {
+            (*A)[0][0] = 10;
             (*A) = (*A);
-            (*A) = (*B);
+            (*A)[5][5] = 20;
+
+            (*C)[0][0] = 17;
+            (*B) = (*C);
+            (*B)[0][0] = 99;
+
+            TS_ASSERT_EQUALS((*A)[0][0], 10);
+            TS_ASSERT_EQUALS((*A)[5][5], 20);
+
+            TS_ASSERT_EQUALS((*B)[0][0], 99);
+            TS_ASSERT_EQUALS((*C)[0][0], 17);
+        }
+
+        void test_copy_constructor(void) {
+            Matrix copy(*D);
+
+            TS_ASSERT_EQUALS(copy, *D);
+
+            copy[1][1] = 17;
+            (*D)[1][1] = 4711;
+
+            TS_ASSERT_DIFFERS(copy, *D);
 
         }
 
         void test_comparison_operator(void) {
             TS_ASSERT_EQUALS(*one2, *one);
+            TS_ASSERT_DIFFERS(*C, *D);
         }
 
         void test_matrix_multiplication(void) {
@@ -246,6 +274,14 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             // TS_ASSERT_EQUALS(*A - *B, *C);
         }
 
+        void test_identity(void) {
+            C->identity();
+            std::stringstream ss;
+            ss << (*C);
+
+            TS_ASSERT_EQUALS(ss.str(), "[ 1 0 0 0 0 0 0 0 0 0\n; 0 1 0 0 0 0 0 0 0 0\n; 0 0 1 0 0 0 0 0 0 0\n; 0 0 0 1 0 0 0 0 0 0\n; 0 0 0 0 1 0 0 0 0 0\n; 0 0 0 0 0 1 0 0 0 0\n; 0 0 0 0 0 0 1 0 0 0\n; 0 0 0 0 0 0 0 1 0 0\n; 0 0 0 0 0 0 0 0 1 0\n; 0 0 0 0 0 0 0 0 0 1 ]\n");
+        }
+
         void test_negation(void) {
             std::stringstream user_input1("[ 1 0 2 ; -1 3 1 ]");
             user_input1 >> (*A);
@@ -257,20 +293,20 @@ class MatrixTestSuite : public CxxTest::TestSuite {
 
             TS_ASSERT_EQUALS(*A, *B);
         }
-        void test_transposeing(void) {
-            TS_WARN("Not implemented");
-        }
 
-        void test_identity(void) {
-            C->identity();
-            std::stringstream ss;
-            ss << (*C);
+        void test_transposing(void) {
+            std::stringstream test1("[ 4 -21 5 8 7 ; 1 100 7 -50 17 ; 2 9 11 45 4711 ]");
+            test1 >> (*A);
 
-            TS_ASSERT_EQUALS(ss.str(), "[ 1 0 0 0 0 0 0 0 0 0\n; 0 1 0 0 0 0 0 0 0 0\n; 0 0 1 0 0 0 0 0 0 0\n; 0 0 0 1 0 0 0 0 0 0\n; 0 0 0 0 1 0 0 0 0 0\n; 0 0 0 0 0 1 0 0 0 0\n; 0 0 0 0 0 0 1 0 0 0\n; 0 0 0 0 0 0 0 1 0 0\n; 0 0 0 0 0 0 0 0 1 0\n; 0 0 0 0 0 0 0 0 0 1 ]\n");
+            Matrix Aref;
+            std::stringstream ref1("[ 4 1 2 ; -21 100 9 ; 5 7 11 ; 8 -50 45 ; 7 17 4711 ]");
+            ref1 >> Aref;
+
+            TS_ASSERT_EQUALS(*A, Aref);
         }
 
         // Mix between 1.1 and 1.3
-        void test_mixed_oepratons(void) {
+        void test_mixed_operations(void) {
             TS_WARN("Not implemented");
         }
 };
