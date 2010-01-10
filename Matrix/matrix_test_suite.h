@@ -1,3 +1,5 @@
+#include <iostream>
+#include <sstream>
 #include <cxxtest/TestSuite.h>
 
 #include "matrix.h"
@@ -7,6 +9,8 @@ class MatrixTestSuite : public CxxTest::TestSuite {
     private:
 
         Matrix * a;
+        Matrix * empty1;
+        Matrix * empty2;
 
     public:
 
@@ -15,6 +19,8 @@ class MatrixTestSuite : public CxxTest::TestSuite {
          */
         virtual void setUp() { 
             a = new Matrix(7, 4);        // initiering med 7 rader och 4 kolumner med nollor
+            empty1 = new Matrix();
+            empty2 = new Matrix();
         }
 
         /**
@@ -22,6 +28,8 @@ class MatrixTestSuite : public CxxTest::TestSuite {
          */
         virtual void tearDown() { 
             delete a;
+            delete empty1;
+            delete empty2;
         }
 
         // Att testa:
@@ -47,11 +55,22 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             TS_WARN("Not yet implemented!");
         }
 
+        /**
+         * Tests that matrix is reading matlab formatted input from 
+         * stdin correctly. The input should be valid.
+         */
         void test_cin_reading(void) {
-            // Reading user input, which is assumed to be correct
-            // >> `[1 2 0; 2 5 -1; 4 10 -1]'
 
-            TS_WARN("Not yet implemented!");
+            std::stringstream user_input1("[ 1 2 -3 ; 5 6 7 ]");
+            user_input1 >> (*empty1);
+//            std::string out;
+//            (*empty1) >> out;
+
+//            std::stringstream user_input2("[ 1 2 0 ; 2 5 -1 ; 4 10 -1 ]");
+//            user_input2 >> (*empty2);
+
+            TS_ASSERT_EQUALS("", "[ 1 2 -3\n; 5 6 7 ]");
+//            TS_ASSERT_EQUALS((*empty2), "[ 1 2 0\n; 2 5 -1\n; 4 10 -1 ]");
         }
 
         void test_increment_on_specific_element(void) {

@@ -8,9 +8,12 @@ class Matrix {
     private:
         Vector<WrapperVector> * matrix;
         int digits(int);
+
+        void initialize();
     public:
         const unsigned int num_columns;
         const unsigned int num_rows;
+        Matrix();
         explicit Matrix(unsigned int x, unsigned int y);
         ~Matrix();
         WrapperVector & operator[] (unsigned int);
@@ -18,6 +21,6 @@ class Matrix {
 };
 
 std::ostream & operator<<(std::ostream & out, const Matrix & matrix);
-std::ostream & operator>>(std::ostream & out, const Matrix & matrix);
+std::istream & operator>>(std::istream & in, Matrix & matrix);
 
 #endif // header guard

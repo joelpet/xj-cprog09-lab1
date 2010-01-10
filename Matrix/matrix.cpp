@@ -1,8 +1,25 @@
 #include "matrix.h"
 #include "math.h"
 
+Matrix::Matrix() : num_columns(0), num_rows(0) {
+    initialize();
+}
+
 Matrix::Matrix(unsigned int x, unsigned int y) : 
     num_columns(x), num_rows(y) {
+        initialize();
+//        matrix = new Vector<WrapperVector >(num_columns);
+
+//        for (unsigned int i = 0; i < num_columns; ++i) {
+//            (*matrix)[i].set_size(num_rows);
+//        }
+}
+
+Matrix::~Matrix() {
+    delete matrix;
+}
+
+void Matrix::initialize() {
         matrix = new Vector<WrapperVector >(num_columns);
 
         for (unsigned int i = 0; i < num_columns; ++i) {
@@ -10,8 +27,19 @@ Matrix::Matrix(unsigned int x, unsigned int y) :
         }
 }
 
-Matrix::~Matrix() {
-    delete matrix;
+/**
+ * Reads values in matlab format from stdin. Assuming the input is
+ * valid.
+ *
+ * @param in Standard input stream
+ * @param matrix The matrix to give the values
+ * @return The standard input stream
+ */
+std::istream & operator>>(std::istream & in, Matrix & matrix) {
+    std::string input;
+    in >> input;
+
+    return in;
 }
 
 std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
