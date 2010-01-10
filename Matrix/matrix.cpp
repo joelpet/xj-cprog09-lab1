@@ -252,6 +252,20 @@ Matrix operator*(int a, const Matrix & B) {
     return B*a;
 }
 
+bool operator==(const Matrix & A, const Matrix & B) {
+    if (A.rows() != B.rows() || A.columns() != B.columns())
+        return false;
+
+    for (unsigned int i = 0; i < A.columns(); i++) {
+        for (unsigned int j = 0; j < A.rows(); ++j) {
+            if (A[i][j] != B[i][j])
+                return false;
+        }
+    }
+
+    return true;
+}
+
 // other methods
 
 /*

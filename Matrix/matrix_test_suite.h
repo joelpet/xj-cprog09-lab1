@@ -12,6 +12,7 @@ class MatrixTestSuite : public CxxTest::TestSuite {
         Matrix * a;
         Matrix * empty1;
         Matrix * empty2;
+        Matrix * one;
 
         Matrix * A;
         Matrix * B;
@@ -27,6 +28,8 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             empty1 = new Matrix();
             empty2 = new Matrix();
 
+            one = new Matrix(1,1);
+
             A = new Matrix(10,20);
             B = new Matrix(20,10);
             C = new Matrix(10,10);
@@ -39,6 +42,7 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             delete a;
             delete empty1;
             delete empty2;
+            delete one;
             delete A;
             delete B;
             delete C;
@@ -123,6 +127,14 @@ class MatrixTestSuite : public CxxTest::TestSuite {
         void test_illegal_matrix_multiplication(void) {
             TS_ASSERT_THROWS((*A) * (*C), WrongSizeException);
             TS_ASSERT_THROWS((*A) * (*A), WrongSizeException);
+        }
+
+        void test_scalar_multiplication(void) {
+            Matrix C(1,1);
+            
+            C[1][1] = 9;
+            (*A)[1][1] = 3;
+            TS_ASSERT_EQUALS(C, *A * *A);
         }
 };
 
