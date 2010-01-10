@@ -22,8 +22,6 @@ class Matrix {
         Matrix(const Matrix &); // Copy constructor
         ~Matrix();
 
-
-
         // operators
         WrapperVector & operator[] (unsigned int);
         WrapperVector operator[] (unsigned int) const;

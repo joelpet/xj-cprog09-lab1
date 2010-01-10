@@ -1,19 +1,18 @@
+#include <iostream>
+#include <iterator>
+#include <sstream>
+#include <string>
+
 #include "matrix.h"
 #include "math.h"
 #include "wrong_size.h"
 
-Matrix::Matrix() : num_columns(0), num_rows(0) {
+Matrix::Matrix() : num_columns(1), num_rows(1) {
     initialize();
 }
 
-Matrix::Matrix(unsigned int x, unsigned int y) : 
-    num_columns(x), num_rows(y) {
-        initialize();
-//        matrix = new Vector<WrapperVector >(num_columns);
-
-//        for (unsigned int i = 0; i < num_columns; ++i) {
-//            (*matrix)[i].set_size(num_rows);
-//        }
+Matrix::Matrix(unsigned int x, unsigned int y) : num_columns(x), num_rows(y) {
+    initialize();
 }
 
 Matrix::Matrix(const Matrix & copy) : num_columns(copy.columns()), num_rows(copy.rows()) {
@@ -35,11 +34,11 @@ Matrix::~Matrix() {
 }
 
 void Matrix::initialize() {
-        matrix = new Vector<WrapperVector >(num_columns);
+    matrix = new Vector<WrapperVector>(num_columns);
 
-        for (unsigned int i = 0; i < num_columns; ++i) {
-            (*matrix)[i].set_size(num_rows);
-        }
+    for (unsigned int i = 0; i < num_columns; ++i) {
+        (*matrix)[i].set_size(num_rows);
+    }
 }
 
 /**
@@ -51,8 +50,47 @@ void Matrix::initialize() {
  * @return The standard input stream
  */
 std::istream & operator>>(std::istream & in, Matrix & matrix) {
-    std::string input;
-    in >> input;
+    
+    std::string str;
+    Vector<std::string> tokens;
+    
+    while (in >> str) {
+        tokens.push_back(str);
+    }
+
+    // find number of rows and columns
+    int num_rows = 1, num_cols = 0;
+    bool num_cols_found = false;
+    int number;
+    Vector<int> numbers;
+
+    for (int i = 0; i < tokens.size(); ++i) {
+        std::istringstream iss(tokens[i]);
+
+        if (iss >> number) {
+            numbers.push_back(number);
+
+            if (!num_cols_found) {
+                ++num_cols;
+            }
+        } else {
+            if (iss.str() == ";") {
+                num_cols_found = true;
+                ++num_rows;
+            }
+        }
+    }
+
+//    Matrix tmp(num_rows, num_cols);
+//    matrix = tmp;
+
+    // insert numbers into matrix
+    for (unsigned int row = 0; row < matrix.rows(); ++row) {
+        for (unsigned int col = 0; col < matrix.columns(); ++col) {
+//            matrix[col][row] = numbers[row+col];
+        }
+    }
+
 
     return in;
 }
@@ -194,7 +232,7 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
         C = B + C;
 
         return C;
-    
+
     }
     else {
         throw WrongSizeException();
