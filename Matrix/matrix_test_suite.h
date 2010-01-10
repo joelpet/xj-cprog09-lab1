@@ -179,27 +179,20 @@ class MatrixTestSuite : public CxxTest::TestSuite {
         }
 
         void test_matrix_multiplication(void) {
-            // Matrix C(1,1);
-            // 
-            // C[0][0] = 9;
-            // (*one)[0][0] = 3;
-            // std::cout << "testing one * one " << std::endl;
-            // TS_ASSERT_EQUALS(C, *one * *one);
-// 
-            // std::cout << "testing empty*empty" << std::endl;
-            // TS_ASSERT_EQUALS(*empty2, *empty1 * *empty2);
+            Matrix C(1,1);
+            
+            C[0][0] = 9;
+            (*one)[0][0] = 3;
+            TS_ASSERT_EQUALS(C, *one * *one);
+
+            TS_ASSERT_EQUALS(*empty2, *empty1 * *empty2);
         }
 
         void test_scalar_multiplication(void) {
 
-            // std::cout << "testing one * 3" << std::endl;
-// 
-            // (*one2)[0][0] = 9;
-            // (*one)[0][0] = 3;
-            // // Matrix C(1,1);
-            // // C[0][0] = 9;
-            // TS_ASSERT_EQUALS(*one2, *one * 3);
-            // std::cout << "done with assert" << std::endl;
+            (*one2)[0][0] = 9;
+            (*one)[0][0] = 3;
+            TS_ASSERT_EQUALS(*one2, *one * 3);
         }
 };
 

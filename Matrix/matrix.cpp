@@ -282,7 +282,6 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
         for (unsigned int i = 0; i < A.columns(); i++) {
             for (unsigned int j = 0; j < B.rows(); ++j) {
                 for (unsigned int k = 0; k < A.rows(); ++k) {
-                    std::cout << "i, j, k\t" << i << ", " << j << ", " << k << std::endl;
                     C[i][j] += A[i][k] * B[k][j];
                 }
             }
@@ -310,7 +309,6 @@ Matrix operator*(const Matrix & A, int n) {
  * Scalar mutliplication
  */
 Matrix operator*(int a, const Matrix & B) {
-    std::cout << "operator*(int, matrix)" << std::endl;
     return B * a;
 }
 
