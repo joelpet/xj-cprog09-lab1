@@ -214,5 +214,57 @@ class MatrixTestSuite : public CxxTest::TestSuite {
 
             TS_ASSERT_EQUALS(*C, *A * 13);
         }
+
+        void test_addition(void) {
+            std::stringstream user_input1("[ 1 0 2 ; -1 3 1 ]");
+            user_input1 >> (*A);
+
+            std::stringstream user_input2("[ 1 2 3 ; 4 5 6 ]");
+            user_input2 >> (*B);
+
+            std::stringstream user_input3("[ 2 2 5 ; 3 8 7 ]");
+            user_input3 >> *C;
+            TS_ASSERT_EQUALS(*A + *B, *C);
+        }
+        
+        void test_subtraction(void) {
+            // std::stringstream user_input1("[ 1 0 2 ; -1 3 1 ]");
+            // user_input1 >> (*A);
+// 
+            // std::stringstream user_input2("[ 1 2 3 ; 4 5 6 ]");
+            // user_input2 >> (*B);
+// 
+            // std::stringstream user_input3("[ 0 -2 -1 ; -5 -2 -5 ]");
+            // user_input3 >> *C;
+            // TS_ASSERT_EQUALS(*A - *B, *C);
+        }
+
+        void test_negation(void) {
+            std::stringstream user_input1("[ 1 0 2 ; -1 3 1 ]");
+            user_input1 >> (*A);
+
+            std::stringstream user_input2("[ -1 0 -2 ; 1 -3 -1 ]");
+            user_input2 >> (*B);
+
+            A->negate();
+
+            TS_ASSERT_EQUALS(*A, *B);
+        }
+        void test_transposeing(void) {
+            TS_WARN("Not implemented");
+        }
+
+        void test_identity(void) {
+            C->identity();
+            std::stringstream ss;
+            ss << (*C);
+
+            TS_ASSERT_EQUALS(ss.str(), "[ 1 0 0 0 0 0 0 0 0 0\n; 0 1 0 0 0 0 0 0 0 0\n; 0 0 1 0 0 0 0 0 0 0\n; 0 0 0 1 0 0 0 0 0 0\n; 0 0 0 0 1 0 0 0 0 0\n; 0 0 0 0 0 1 0 0 0 0\n; 0 0 0 0 0 0 1 0 0 0\n; 0 0 0 0 0 0 0 1 0 0\n; 0 0 0 0 0 0 0 0 1 0\n; 0 0 0 0 0 0 0 0 0 1 ]\n");
+        }
+
+        // Mix between 1.1 and 1.3
+        void test_mixed_oepratons(void) {
+            TS_WARN("Not implemented");
+        }
 };
 
