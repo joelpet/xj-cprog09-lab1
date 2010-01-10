@@ -297,6 +297,7 @@ class MatrixTestSuite : public CxxTest::TestSuite {
         void test_transposing(void) {
             std::stringstream test1("[ 4 -21 5 8 7 ; 1 100 7 -50 17 ; 2 9 11 45 4711 ]");
             test1 >> (*A);
+            A->transpose();
 
             Matrix Aref;
             std::stringstream ref1("[ 4 1 2 ; -21 100 9 ; 5 7 11 ; 8 -50 45 ; 7 17 4711 ]");
