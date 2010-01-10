@@ -1,6 +1,8 @@
 #ifndef WRAPPER_VECTOR_H 
 #define WRAPPER_VECTOR_H
 
+#include <iostream>
+
 #include "vector.h"
 
 class WrapperVector {
@@ -21,8 +23,9 @@ class WrapperVector {
         }
 
         void set_size(int size) {
-            if (is_size_set)
+            if (is_size_set) {
                 return;
+            }
 
             is_size_set = true;
 

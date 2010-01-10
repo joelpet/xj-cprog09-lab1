@@ -49,14 +49,18 @@ class Vector {
 
         T & operator[](unsigned int index) {
             if (index >= vectorSize) { 
-                throw std::out_of_range("index out of range");
+                std::ostringstream oss;
+                oss << "index out of range: " << index << " >= " << vectorSize;
+                throw std::out_of_range(oss.str());
             }
             return vector[index];
         }
 
         T operator[](unsigned int index) const {
             if (index >= vectorSize) {
-                throw std::out_of_range("index out of range");
+                std::ostringstream oss;
+                oss << "index out of range: " << index << " >= " << vectorSize;
+                throw std::out_of_range(oss.str());
             } 
             return vector[index];
         }
@@ -188,34 +192,6 @@ class Vector {
                 right--;
             }
         }
-        // void backSort(int left, int right) {
-            // int i = left;
-            // int j = right;
-            // T tmp;
-            // T pivot = vector[(left+right)/2];
-            // // std::cerr << "left:\t" << left << "\tright:\t" << right << std::endl;
-            // // std::cerr << (left+right)/2 << "pivot:\t" << pivot << std::endl;
-// 
-            // while (i <= j) {
-                // while (pivot < vector[i]) {
-                    // i++;
-                // }
-                // while (vector[j] < pivot) {
-                    // j--;
-                // }
-                // if (i <= j) {
-                    // tmp = vector[i];
-                    // vector[i] = vector[j];
-                    // vector[j] = tmp;
-                    // i++;
-                    // j--;
-                // }
-            // }
-            // if (left < j) 
-                // quickSort(left, j);
-            // if (i < right)
-                // quickSort(i, right);
-        // }
 
         /**
          * Increases the capacity of our vector
@@ -249,7 +225,6 @@ class Vector {
             }
             std::cerr << std::endl;
         }
-
 
 };
 

@@ -1,13 +1,13 @@
 #include <iostream>
 #include <iterator>
+#include <cmath>
 #include <sstream>
 #include <string>
 
 #include "matrix.h"
-#include "math.h"
 #include "wrong_size.h"
 
-Matrix::Matrix() : num_columns(1), num_rows(1) {
+Matrix::Matrix() : num_columns(0), num_rows(0) {
     initialize();
 }
 
@@ -37,6 +37,22 @@ void Matrix::initialize() {
     for (unsigned int i = 0; i < num_columns; ++i) {
         (*matrix)[i].set_size(num_rows);
     }
+}
+
+/**
+ * Sets the dimension of this matrix to the ones specified. The values
+ * stored in this matrix will be lost.
+ *
+ * TODO: extend with 0's or cut the current matrix if new dim is smaller
+ * @param rows The new number of rows
+ * @param cols The new number of columns
+ */
+void Matrix::set_dimensions(unsigned int rows, unsigned int cols) {
+    delete matrix;
+    this->num_rows = rows;
+    this->num_columns = cols;
+
+    initialize();
 }
 
 /**
@@ -71,24 +87,18 @@ std::istream & operator>>(std::istream & in, Matrix & matrix) {
             if (!num_cols_found) {
                 ++num_cols;
             }
-        } else {
-            if (iss.str() == ";") {
-                num_cols_found = true;
-                ++num_rows;
-            }
+        } else if (iss.str() == ";") {
+            num_cols_found = true;
+            ++num_rows;
         }
     }
 
-    delete matrix.matrix;
-    matrix.num_rows = num_rows;
-    matrix.num_columns = num_cols;
-    matrix.initialize();
+    matrix.set_dimensions(num_rows, num_cols);
 
     // insert numbers into matrix
     for (unsigned int row = 0; row < matrix.rows(); ++row) {
         for (unsigned int col = 0; col < matrix.columns(); ++col) {
-            int number = numbers[row+col];
-            matrix[col][row] = number;
+            matrix[col][row] = numbers[row+col];
         }
     }
 
@@ -104,12 +114,16 @@ unsigned int Matrix::rows() const {
 
 std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
     int maxDigit = 0;
-    int n;
+    int n = 0;
+
     for (unsigned int i = 0; i < matrix.columns(); ++i) {
-        for (unsigned int j = 0; j < matrix.rows(); j++) {
+        for (unsigned int j = 0; j < matrix.rows(); ++j) {
+            // find out how many chars are needed to represent the number
             n = log10(matrix[i][j]);
-            if (matrix[i][j] < 0)
-                n++;
+
+            if (matrix[i][j] < 0) {
+                n++; // add one char for the minus sign
+            }
 
             if (n > maxDigit)  {
                 maxDigit = n;
@@ -152,14 +166,19 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
 
 WrapperVector & Matrix::operator[] (unsigned int i) {
     if (i >= num_columns) { 
-        throw std::out_of_range("index out of range");
+        std::ostringstream oss;
+        oss << "Matrix::operator[]: index out of range: " << i << " >= " << num_columns;
+        throw std::out_of_range(oss.str());
     }
+
     return (*matrix)[i];
 }
 
-WrapperVector Matrix::operator[] (unsigned int i) const {
+const WrapperVector & Matrix::operator[] (unsigned int i) const {
     if (i >= num_columns) { 
-        throw std::out_of_range("index out of range");
+        std::ostringstream oss;
+        oss << "Matrix::operator[] const: index out of range: " << i << " >= " << num_columns;
+        throw std::out_of_range(oss.str());
     }
 
     return (*matrix)[i];
@@ -167,9 +186,8 @@ WrapperVector Matrix::operator[] (unsigned int i) const {
 
 // 1.3
 
-
 /*
- * Tilldelningsoperator (english?)
+ * Assignment operator
  */
 Matrix & Matrix::operator=(const Matrix & copy) {
     if (&(copy.matrix) == &(this->matrix)) {
@@ -252,23 +270,23 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
  *
  * This algorithm runs in O(n^3)
  */
-Matrix operator*(const Matrix & A, const Matrix & B) {
-    if (A.rows() != B.columns())
-        throw WrongSizeException();
+    Matrix operator*(const Matrix & A, const Matrix & B) {
+        if (A.rows() != B.columns())
+            throw WrongSizeException();
 
-    Matrix C(A.columns(), B.rows());
+        Matrix C(A.columns(), B.rows());
 
-    for (unsigned int i = 0; i < A.columns(); i++) {
-        for (unsigned int j = 0; j < B.rows(); ++j) {
-            for (unsigned int k = 0; k < A.rows(); ++k) {
-                std::cout << "i, j, k\t" << i << ", " << j << ", " << k << std::endl;
-                C[i][j] += A[i][k] * B[k][j];
+        for (unsigned int i = 0; i < A.columns(); i++) {
+            for (unsigned int j = 0; j < B.rows(); ++j) {
+                for (unsigned int k = 0; k < A.rows(); ++k) {
+                    std::cout << "i, j, k\t" << i << ", " << j << ", " << k << std::endl;
+                    C[i][j] += A[i][k] * B[k][j];
+                }
             }
         }
-    }
 
-    return C;
-}
+        return C;
+    }
 
 /*
  * Scalar multiplication
@@ -293,19 +311,19 @@ Matrix operator*(int a, const Matrix & B) {
     return B * a;
 }
 
-bool operator==(const Matrix & A, const Matrix & B) {
-    if (A.rows() != B.rows() || A.columns() != B.columns())
-        return false;
+    bool operator==(const Matrix & A, const Matrix & B) {
+        if (A.rows() != B.rows() || A.columns() != B.columns())
+            return false;
 
-    for (unsigned int i = 0; i < A.columns(); i++) {
-        for (unsigned int j = 0; j < A.rows(); ++j) {
-            if (A[i][j] != B[i][j])
-                return false;
+        for (unsigned int i = 0; i < A.columns(); i++) {
+            for (unsigned int j = 0; j < A.rows(); ++j) {
+                if (A[i][j] != B[i][j])
+                    return false;
+            }
         }
-    }
 
-    return true;
-}
+        return true;
+    }
 
 // other methods
 
@@ -373,3 +391,4 @@ void Matrix::transpose() {
 
     delete old_matrix;
 }
+

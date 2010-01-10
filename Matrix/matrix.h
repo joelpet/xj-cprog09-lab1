@@ -5,7 +5,6 @@
 #include "wrapper_vector.h"
 
 class Matrix {
-    friend std::istream & operator>>(std::istream &, Matrix &);
 
     private:
         // Variabels
@@ -26,7 +25,7 @@ class Matrix {
 
         // operators
         WrapperVector & operator[] (unsigned int);
-        WrapperVector operator[] (unsigned int) const;
+        const WrapperVector & operator[] (unsigned int) const;
         Matrix & operator=(const Matrix &);     // Tilldelningsoperator (english?)
 
         // other methods
@@ -37,6 +36,7 @@ class Matrix {
         void negate();      // Negate whole matrix
         void transpose();   // Transpose matrix
 
+        void set_dimensions(unsigned int, unsigned int);
         
 };
 
