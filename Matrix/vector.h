@@ -14,14 +14,15 @@ class Vector {
         static const unsigned int capacityIncreaseFactor = 2;
         T * vector;
     public:
-        explicit Vector() : capacity(1), vectorSize(0) {
+        Vector() : capacity(1), vectorSize(0) {
             vector = new T[capacity];
+            vector[0] = T();
         }
 
         explicit Vector(unsigned int space)  : capacity(space), vectorSize(space) {
             vector = new T[capacity];
             for (unsigned int i = 0; i < capacity; i++) {
-//                vector[i] = T();
+                vector[i] = T();
             }
         }
 
@@ -69,7 +70,7 @@ class Vector {
 
             this->capacity = copy.capacity;
             this->vectorSize = copy.vectorSize;
-            vector = new T[capacity];
+            this->vector = new T[capacity];
 
             for (unsigned int i = 0; i < vectorSize; i++) {
                 vector[i] = copy.vector[i];
@@ -228,7 +229,7 @@ class Vector {
             T * oldVector = vector;
             vector = new T[capacity*capacityIncreaseFactor];
 
-            for (int i = 0; i < capacity; i++) {
+            for (unsigned int i = 0; i < capacity; i++) {
                 vector[i] = oldVector[i];
             }
 
