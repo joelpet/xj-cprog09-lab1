@@ -207,15 +207,25 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
  * This algorithm runs in O(n^3)
  */
 Matrix operator*(const Matrix & A, const Matrix & B) {
+    if (A.rows() != B.columns())
+        throw WrongSizeException();
+
+    std::cout << "Multiplying" << std::endl;
+    // std::cout << A << std::endl;
+    // std::cout << A << std::endl;
+    // std::cout << "B" << std::endl;
+    // std::cout << B << std::endl;
     Matrix C(A.columns(), B.rows());
 
     for (unsigned int i = 0; i < A.columns(); i++) {
         for (unsigned int j = 0; j < A.rows(); ++j) {
             for (unsigned int k = 0; k < A.rows(); ++k) {
-                C[i][j] += A[i][k]*B[k][j];
+                std::cout << "i, j, k\t"<< i << ", " << j << ", " << k << std::endl;
+                C[i][j] += A[i][k] * B[k][j];
             }
         }
     }
+    std::cout << "Multiplication done" << std::endl;
 
     return C;
 }

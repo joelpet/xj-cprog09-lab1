@@ -3,6 +3,7 @@
 #include <cxxtest/TestSuite.h>
 
 #include "matrix.h"
+#include "wrong_size.h"
 
 class MatrixTestSuite : public CxxTest::TestSuite {
     
@@ -38,6 +39,9 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             delete a;
             delete empty1;
             delete empty2;
+            delete A;
+            delete B;
+            delete C;
         }
 
         // Att testa:
@@ -95,25 +99,30 @@ class MatrixTestSuite : public CxxTest::TestSuite {
         // Exception throwing
         
         void test_illegal_addition(void) {
-            TS_ASSERT_THROWS(A+B, WrongSizeException()); 
-            TS_ASSERT_THROWS(B+A, WrongSizeException());
-            TS_ASSERT_THROWS(A+C, WrongSizeException());
-            TS_ASSERT_THROWS(C+A, WrongSizeException());
-            TS_ASSERT_THROWS(B+C, WrongSizeException());
-            TS_ASSERT_THROWS(C+B, WrongSizeException());
+            TS_ASSERT_THROWS(*A+*B, WrongSizeException()); 
+            TS_ASSERT_THROWS(*B+*A, WrongSizeException());
+            TS_ASSERT_THROWS(*A+*C, WrongSizeException());
+            TS_ASSERT_THROWS(*C+*A, WrongSizeException());
+            TS_ASSERT_THROWS(*B+*C, WrongSizeException());
+            TS_ASSERT_THROWS(*C+*B, WrongSizeException());
         }
 
         void test_illegal_subtraction(void) {
-            TS_ASSERT_THROWS(A-B, WrongSizeException()); 
-            TS_ASSERT_THROWS(B-A, WrongSizeException());
-            TS_ASSERT_THROWS(A-C, WrongSizeException());
-            TS_ASSERT_THROWS(C-A, WrongSizeException());
-            TS_ASSERT_THROWS(B-C, WrongSizeException());
-            TS_ASSERT_THROWS(C-B, WrongSizeException());
+            TS_ASSERT_THROWS(*A-*B, WrongSizeException()); 
+            TS_ASSERT_THROWS(*B-*A, WrongSizeException());
+            TS_ASSERT_THROWS(*A-*C, WrongSizeException());
+            TS_ASSERT_THROWS(*C-*A, WrongSizeException());
+            TS_ASSERT_THROWS(*B-*C, WrongSizeException());
+            TS_ASSERT_THROWS(*C-*B, WrongSizeException());
         }
 
         void test_illegal_identity(void) {
-            TS_ASSERT_THROWS(a.identity(), WrongSizeException());
+            TS_ASSERT_THROWS(a->identity(), WrongSizeException());
+        }
+
+        void test_illegal_matrix_multiplication(void) {
+            TS_ASSERT_THROWS((*A) * (*C), WrongSizeException());
+            TS_ASSERT_THROWS((*A) * (*A), WrongSizeException());
         }
 };
 
