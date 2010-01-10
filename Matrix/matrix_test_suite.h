@@ -213,43 +213,6 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             TS_ASSERT_DIFFERS(*C, *D);
         }
 
-        void test_matrix_multiplication(void) {
-            Matrix C(1,1);
-            
-            C[0][0] = 9;
-            (*one)[0][0] = 3;
-            TS_ASSERT_EQUALS(C, *one * *one);
-
-            TS_ASSERT_EQUALS(*empty2, *empty1 * *empty2);
-
-            std::stringstream user_input1("[ 1 0 2 ; -1 3 1 ]");
-            user_input1 >> (*A);
-
-            std::stringstream user_input2("[ 3 1 ; 2 1 ; 1 0 ]");
-            user_input2 >> (*B);
-
-            std::stringstream user_input3("[ 5 1 ; 4 2 ]");
-            user_input3 >> C;
-            TS_ASSERT_EQUALS(*A * *B, C);
-        }
-
-        void test_scalar_multiplication(void) {
-
-            (*one2)[0][0] = 9;
-            (*one)[0][0] = 3;
-            TS_ASSERT_EQUALS(*one2, *one * 3);
-
-            TS_ASSERT_EQUALS(*a, *a * 5);
-
-            std::stringstream user_input1("[ 5 1 ; 4 2 ]");
-            user_input1 >> *A;
-
-            std::stringstream user_input2("[ 65 13 ; 52 26 ]");
-            user_input2 >> *C;
-
-            TS_ASSERT_EQUALS(*C, *A * 13);
-        }
-
         void test_addition(void) {
             std::stringstream user_input1("[ 1 0 2 ; -1 3 1 ]");
             user_input1 >> (*A);
@@ -272,6 +235,42 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             std::stringstream user_input3("[ 0 -2 -1 ; -5 -2 -5 ]");
             user_input3 >> *C;
             TS_ASSERT_EQUALS(*A - *B, *C);
+        }
+
+        void test_matrix_multiplication(void) {
+            Matrix C(1,1);
+            
+            C[0][0] = 9;
+            (*one)[0][0] = 3;
+            TS_ASSERT_EQUALS(C, *one * *one);
+
+            TS_ASSERT_EQUALS(*empty2, *empty1 * *empty2);
+
+            std::stringstream user_input1("[ 1 0 2 ; -1 3 1 ]");
+            user_input1 >> (*A);
+
+            std::stringstream user_input2("[ 3 1 ; 2 1 ; 1 0 ]");
+            user_input2 >> (*B);
+
+            std::stringstream user_input3("[ 5 1 ; 4 2 ]");
+            user_input3 >> C;
+            TS_ASSERT_EQUALS(*A * *B, C);
+        }
+
+        void test_scalar_multiplication(void) {
+            (*one2)[0][0] = 9;
+            (*one)[0][0] = 3;
+            TS_ASSERT_EQUALS(*one2, *one * 3);
+
+            TS_ASSERT_EQUALS(*a, *a * 5);
+
+            std::stringstream user_input1("[ 5 1 ; 4 2 ]");
+            user_input1 >> *A;
+
+            std::stringstream user_input2("[ 65 13 ; 52 26 ]");
+            user_input2 >> *C;
+
+            TS_ASSERT_EQUALS(*C, *A * 13);
         }
 
         void test_identity(void) {
@@ -306,8 +305,32 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             TS_ASSERT_EQUALS(*A, Aref);
         }
 
+        void test_chained_operations(void) {
+            Matrix m1, m2, m3, m4, m5, result;
+            int k = 17;
+
+            std::stringstream ss1("[ -2 5 8 ; -9 -8 6 ; 6 -7 5 ; -3 1 -9 ; 2 -0 -9 ]"); 
+            std::stringstream ss2("[ 7 -6 -2 -8 -7 ; 7 1 -6 -8 2 ; -5 3 9 -7 1 ]"); 
+            std::stringstream ss3("[ -9 5 9 6 -2 ; 9 -9 10 0 -7 ; 5 7 7 -6 -9 ]"); 
+            std::stringstream ss4("[ 9 -3 -9 7 -9 ; -4 -1 7 -3 -6 ; -4 3 1 -1 3 ]"); 
+            std::stringstream ss5("[ -8 7 -9 4 ; 6 -3 3 6 ; 8 -4 2 -4 ; 1 5 1 4 ; -8 -10 5 1 ]"); 
+            std::stringstream ssr("[ 10415 18586 -22875 -4501 ; -16423 -1122 -5760 11870 ; 31633 -18037 21413 4126 ; -29854 -891 1413 752 ; -13000 -9029 13028 -499 ]"); 
+
+            ss1 >> m1;
+            ss2 >> m2;
+            ss3 >> m3;
+            ss4 >> m4;
+            ss5 >> m5;
+            ssr >> result;
+
+            TS_ASSERT_EQUALS((m1*(m2+(k*m3)-m4))*m5, result);
+        }
+
         // Mix between 1.1 and 1.3
         void test_mixed_operations(void) {
+
+
+
             TS_WARN("Not implemented");
         }
 };
