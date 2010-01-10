@@ -139,10 +139,10 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
 
     out << "[";
 
-    for (unsigned int i = 0; i < matrix.columns(); ++i) {
-        if (i != 0)
+    for (unsigned int j = 0; j < matrix.rows(); ++j) {
+        if (j != 0)
             out << ";";
-        for (unsigned int j = 0; j < matrix.rows(); j++) {
+        for (unsigned int i = 0; i < matrix.columns(); i++) {
             append = "";
             int digit = 0;
             int n = matrix[i][j];
@@ -159,7 +159,7 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
             out << append << matrix[i][j]; // Right aligned 
 //             out << matrix[i][j] << append;  // Left aligned
         }
-        if (i+1 < matrix.columns())
+        if (j+1 < matrix.rows())
             out << std::endl;
     }
 
