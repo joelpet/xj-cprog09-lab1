@@ -49,8 +49,8 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             one = new Matrix(1,1);
             one2 = new Matrix(1,1);
 
-            A = new Matrix(10,20);
-            B = new Matrix(20,10);
+            A = new Matrix(10,20);  // A (20x10)
+            B = new Matrix(20,10);  // B (10x20)
             C = new Matrix(10,10);
             D = new Matrix(10,10);
 
@@ -176,7 +176,7 @@ class MatrixTestSuite : public CxxTest::TestSuite {
         }
 
         void test_illegal_matrix_multiplication(void) {
-            TS_ASSERT_THROWS((*A) * (*C), WrongSizeException);
+            TS_ASSERT_THROWS((*C) * (*A), WrongSizeException);
             TS_ASSERT_THROWS((*A) * (*A), WrongSizeException);
         }
 

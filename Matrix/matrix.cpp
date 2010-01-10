@@ -18,13 +18,13 @@ Matrix::Matrix(unsigned int x, unsigned int y) : num_columns(x), num_rows(y) {
 Matrix::Matrix(const Matrix & copy) : num_columns(copy.columns()), num_rows(copy.rows()) {
     initialize();
 
-    for (unsigned int i = 0; i < num_columns; ++i) {
+//    for (unsigned int i = 0; i < num_columns; ++i) {
         for (unsigned int i = 0; i < columns(); ++i) {
             for (unsigned int j = 0; j < rows(); ++j) {
                 (*matrix)[i][j] = copy[i][j];
             }
         }
-    }
+//    }
 }
 
 Matrix::~Matrix() {
@@ -98,7 +98,6 @@ std::istream & operator>>(std::istream & in, Matrix & matrix) {
     int number_index = 0;
     for (unsigned int row = 0; row < matrix.rows(); ++row) {
         for (unsigned int col = 0; col < matrix.columns(); ++col) {
-//            std::cout << "matrix[" << col << "][" << row << "] = " << numbers[number_index] << std::endl;
             matrix[col][row] = numbers[number_index];
             ++number_index;
         }
@@ -270,12 +269,13 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
  * This algorithm runs in O(n^3)
  */
     Matrix operator*(const Matrix & A, const Matrix & B) {
-        if (A.rows() != B.columns())
+        if (A.columns() != B.rows()) {
             throw WrongSizeException();
+        }
 
-        Matrix C(A.rows(), B.columns());
+        Matrix C(B.columns(), A.rows());
 
-        for (unsigned int i = 0; i < A.rows(); i++) {
+        for (unsigned int i = 0; i < A.rows(); ++i) {
             for (unsigned int j = 0; j < B.columns(); ++j) {
                 for (unsigned int k = 0; k < A.columns(); ++k) {
                     C[j][i] += A[k][i] * B[j][k];
@@ -308,19 +308,19 @@ Matrix operator*(int a, const Matrix & B) {
     return B * a;
 }
 
-    bool operator==(const Matrix & A, const Matrix & B) {
-        if (A.rows() != B.rows() || A.columns() != B.columns())
-            return false;
+bool operator==(const Matrix & A, const Matrix & B) {
+    if (A.rows() != B.rows() || A.columns() != B.columns())
+        return false;
 
-        for (unsigned int i = 0; i < A.columns(); i++) {
-            for (unsigned int j = 0; j < A.rows(); ++j) {
-                if (A[i][j] != B[i][j])
-                    return false;
-            }
+    for (unsigned int i = 0; i < A.columns(); i++) {
+        for (unsigned int j = 0; j < A.rows(); ++j) {
+            if (A[i][j] != B[i][j])
+                return false;
         }
-
-        return true;
     }
+
+    return true;
+}
 
 // other methods
 
@@ -363,8 +363,6 @@ void Matrix::negate() {
  * Transpose
  *
  * Turn rows into columns and vice versa
- * Returns a new matrix
- * XXX: might need diffrent return type
  */
 void Matrix::transpose() {
     Vector<WrapperVector > * old_matrix = matrix;

@@ -150,7 +150,6 @@ Matrix * buildMatrix(const char * labyrinth[]) {
     int col = 0;
 
     for (int i = 0; labyrinth[i] != 0; i++) {
-        // std::cout << labyrinth[i] << std::endl;
         if (col == 0) {
             while (labyrinth[i][col] != 0)
                 col++;
@@ -160,7 +159,6 @@ Matrix * buildMatrix(const char * labyrinth[]) {
     std::cout << "Matrix size: " << "col: " << col << "\t row: " << row << std::endl;
 
     Matrix * a = new Matrix(row, col);
-    // Matrix a(row, col);
 
     for (int i = 0; labyrinth[i] != 0; i++) {
         for (int j = 0; labyrinth[i][j] != 0; ++j) {
