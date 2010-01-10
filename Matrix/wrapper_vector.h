@@ -12,7 +12,9 @@ class WrapperVector {
             vector = new Vector<int>(size);
         }
 
-        explicit WrapperVector() : is_size_set(false) {}
+        WrapperVector() : is_size_set(false) {
+            vector = new Vector<int>(0);
+        }
 
         ~WrapperVector() {
             delete vector;

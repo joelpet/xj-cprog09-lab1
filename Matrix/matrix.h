@@ -5,6 +5,8 @@
 #include "wrapper_vector.h"
 
 class Matrix {
+    friend std::istream & operator>>(std::istream &, Matrix &);
+
     private:
         // Variabels
         unsigned int num_columns;       // cannot be const, needs to be changable in copy constructor

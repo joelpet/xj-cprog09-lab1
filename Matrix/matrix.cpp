@@ -79,16 +79,18 @@ std::istream & operator>>(std::istream & in, Matrix & matrix) {
         }
     }
 
-//    Matrix tmp(num_rows, num_cols);
-//    matrix = tmp;
+    delete matrix.matrix;
+    matrix.num_rows = num_rows;
+    matrix.num_columns = num_cols;
+    matrix.initialize();
 
     // insert numbers into matrix
     for (unsigned int row = 0; row < matrix.rows(); ++row) {
         for (unsigned int col = 0; col < matrix.columns(); ++col) {
-//            matrix[col][row] = numbers[row+col];
+            int number = numbers[row+col];
+            matrix[col][row] = number;
         }
     }
-
 
     return in;
 }
@@ -108,6 +110,7 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
             n = log10(matrix[i][j]);
             if (matrix[i][j] < 0)
                 n++;
+
             if (n > maxDigit)  {
                 maxDigit = n;
             }

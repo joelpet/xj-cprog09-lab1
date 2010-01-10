@@ -89,11 +89,13 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             std::ostringstream out1;
             out1 << (*empty1);
 
-//            std::stringstream user_input2("[ 1 2 0 ; 2 5 -1 ; 4 10 -1 ]");
-//            user_input2 >> (*empty2);
+            std::stringstream user_input2("[ 1 2 0 ; 2 5 -1 ; 4 10 -1 ]");
+            user_input2 >> (*empty2);
+            std::ostringstream out2;
+            out2 << (*empty2);
 
             TS_ASSERT_EQUALS(out1.str(), "[ 1 2 -3\n; 5 6 7 ]");
-//            TS_ASSERT_EQUALS((*empty2), "[ 1 2 0\n; 2 5 -1\n; 4 10 -1 ]");
+            TS_ASSERT_EQUALS(out2.str(), "[ 1 2 0\n; 2 5 -1\n; 4 10 -1 ]");
         }
 
         void test_increment_on_specific_element(void) {
