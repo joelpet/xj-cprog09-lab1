@@ -69,16 +69,15 @@ class MatrixTestSuite : public CxxTest::TestSuite {
             delete C;
         }
 
-        // Att testa:
-        // att ett konstant matrisobjekt returnerar skrivskyddat element
-        // att matrisen är nollindexerad
-        // tilldelning fungerar
-
         void test_direct_access(void) {
             (*a)[5][2] = 7;           // tilldelning till element
             (*c)[3][1] = 4711;
             (*c)[99][99] = 13;
             (*one)[0][0] = 4711;
+
+            // these 2 lines should raise a compile error if uncommented
+//            Matrix tmp(*a);
+//            tmp[5][2] = 70;
 
             TS_ASSERT_EQUALS((*a)[5][2], 7);
             TS_ASSERT_EQUALS((*c)[99][99], 13);
