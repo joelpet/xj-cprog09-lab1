@@ -235,15 +235,15 @@ class MatrixTestSuite : public CxxTest::TestSuite {
         }
         
         void test_subtraction(void) {
-            // std::stringstream user_input1("[ 1 0 2 ; -1 3 1 ]");
-            // user_input1 >> (*A);
-// 
-            // std::stringstream user_input2("[ 1 2 3 ; 4 5 6 ]");
-            // user_input2 >> (*B);
-// 
-            // std::stringstream user_input3("[ 0 -2 -1 ; -5 -2 -5 ]");
-            // user_input3 >> *C;
-            // TS_ASSERT_EQUALS(*A - *B, *C);
+            std::stringstream user_input1("[ 1 0 2 ; -1 3 1 ]");
+            user_input1 >> (*A);
+
+            std::stringstream user_input2("[ 1 2 3 ; 4 5 6 ]");
+            user_input2 >> (*B);
+
+            std::stringstream user_input3("[ 0 -2 -1 ; -5 -2 -5 ]");
+            user_input3 >> *C;
+            TS_ASSERT_EQUALS(*A - *B, *C);
         }
 
         void test_negation(void) {

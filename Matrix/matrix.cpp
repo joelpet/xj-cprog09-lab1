@@ -218,20 +218,12 @@ Matrix & Matrix::operator=(const Matrix & copy) {
  */
 Matrix operator+(const Matrix & A, const Matrix & B) {
     if (A.columns() == B.columns() && A.rows() == B.rows()) {
-        std::cout << "operator+" << std::endl << "A" << std::endl;
-        std::cout << A << std::endl;
-        std::cout << "B" << std::endl;
-        std::cout << B << std::endl;
         Matrix C(A.columns(), A.rows());
-        std::cout << "C" << std::endl;
-        std::cout << C << std::endl;
         for (unsigned int i = 0; i < A.columns(); ++i) {
             for (unsigned int j = 0; j <A.rows(); ++j) {
-                std::cout << "i, j\t" << i << ", " << j << std::endl;
                 C[i][j] = A[i][j] + B[i][j];
             }
         }
-        std::cout << "Done with addition" << std::endl;
 
         return C;
 
@@ -250,18 +242,11 @@ Matrix operator+(const Matrix & A, const Matrix & B) {
  */
 Matrix operator-(const Matrix & A, const Matrix & B) {
     if (A.columns() == B.columns() && A.rows() == B.rows()) {
-        std::cout << A << std::endl;
-        std::cout << B << std::endl;
         Matrix C(B);
-        std::cout << C << std::endl;
 
         C.negate();
-        std::cout << "Negate:" << std::endl;
-        std::cout << C << std::endl;
 
-        std::cout << "Addition" << std::endl;
-        C = B + C;
-        std::cout << "Return" << std::endl;
+        C = A + C;
 
         return C;
 
