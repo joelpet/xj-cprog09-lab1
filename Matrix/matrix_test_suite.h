@@ -134,7 +134,9 @@ class MatrixTestSuite : public CxxTest::TestSuite {
         }
 
         void test_increment_on_specific_element(void) {
+            (*c)[0][0]++;
 
+            TS_ASSERT_EQUALS((*c)[0][0], 1);
         }
 
         void test_illegal_access(void) {
