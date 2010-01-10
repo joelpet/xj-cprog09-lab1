@@ -10,8 +10,12 @@ class MatrixTestSuite : public CxxTest::TestSuite {
     private:
 
         Matrix * a;
+        Matrix * b;
+        Matrix * c;
+
         Matrix * empty1;
         Matrix * empty2;
+
         Matrix * one;
         Matrix * one2;
 
@@ -26,6 +30,18 @@ class MatrixTestSuite : public CxxTest::TestSuite {
          */
         virtual void setUp() { 
             a = new Matrix(7, 4);        // initiering med 7 rader och 4 kolumner med nollor
+
+            b = new Matrix(3, 4);
+            int value = -47;
+            for (unsigned int col = 0; col < 3; ++col) {
+                for (unsigned int row = 0; row < 4; ++row) {
+                    (*b)[col][row] = value;
+                    value += 17;
+                }
+            }
+
+            c = new Matrix(100, 100);
+
             empty1 = new Matrix();
             empty2 = new Matrix();
 
@@ -42,6 +58,8 @@ class MatrixTestSuite : public CxxTest::TestSuite {
          */
         virtual void tearDown() { 
             delete a;
+            delete b;
+            delete c;
             delete empty1;
             delete empty2;
             delete one;
@@ -56,29 +74,29 @@ class MatrixTestSuite : public CxxTest::TestSuite {
         // att matrisen är nollindexerad
         // tilldelning fungerar
 
-        void test_direct_mutate_access(void) {
+        void test_direct_access(void) {
             (*a)[5][2] = 7;           // tilldelning till element
-
-            TS_ASSERT_EQUALS((*a)[5][2], 7);
-
+            (*c)[3][1] = 4711;
+            (*c)[99][99] = 13;
             (*one)[0][0] = 4711;
 
+            TS_ASSERT_EQUALS((*a)[5][2], 7);
+            TS_ASSERT_EQUALS((*c)[99][99], 13);
             TS_ASSERT_EQUALS((*one)[0][0], 4711);
         }
 
-        void test_direct_const_access(void) {
-            // int x = matris[7][2]
-
-            TS_WARN("Not yet implemented!");
-        }
-
+        /**
+         * Tests printing of matrix to standard out on matlab format.
+         */
         void test_cout_printing(void) {
-            // std::cout << matris << std::endl;
-            
-//            TS_ASSERT_EQUALS(out1.str(), "[ 1 2 -3\n; 5 6 7 ]");
-//            TS_ASSERT_EQUALS(out2.str(), "[ 1  2  0\n; 2  5 -1\n; 4 10 -1 ]");
+            std::stringstream ass;
+            ass << (*a);
 
-            TS_WARN("Not yet implemented!");
+            std::stringstream bss;
+            bss << (*b);
+
+            TS_ASSERT_EQUALS(ass.str(), "[ 0 0 0 0\n; 0 0 0 0\n; 0 0 0 0\n; 0 0 0 0\n; 0 0 0 0\n; 0 0 0 0\n; 0 0 0 0 ]\n");
+            TS_ASSERT_EQUALS(bss.str(), "[ -47 -30 -13   4\n;  21  38  55  72\n;  89 106 123 140 ]\n");
         }
 
         /**

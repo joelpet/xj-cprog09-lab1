@@ -121,7 +121,9 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
     for (unsigned int i = 0; i < matrix.columns(); ++i) {
         for (unsigned int j = 0; j < matrix.rows(); ++j) {
             // find out how many chars are needed to represent the number
-            n = log10(matrix[i][j]);
+            const int & mij = matrix[i][j];
+            unsigned int abs_val = (mij < 0) ? -mij : mij;
+            n = log10(abs_val);
 
             if (matrix[i][j] < 0) {
                 n++; // add one char for the minus sign
@@ -132,15 +134,14 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
             }
         }
     }
-    maxDigit++;
 
     std::string append = "";
 
-    out << "[ ";
+    out << "[";
 
     for (unsigned int i = 0; i < matrix.columns(); ++i) {
         if (i != 0)
-            out << "; ";
+            out << ";";
         for (unsigned int j = 0; j < matrix.rows(); j++) {
             append = "";
             int digit = 0;
