@@ -74,6 +74,9 @@ class MatrixTestSuite : public CxxTest::TestSuite {
 
         void test_cout_printing(void) {
             // std::cout << matris << std::endl;
+            
+//            TS_ASSERT_EQUALS(out1.str(), "[ 1 2 -3\n; 5 6 7 ]");
+//            TS_ASSERT_EQUALS(out2.str(), "[ 1  2  0\n; 2  5 -1\n; 4 10 -1 ]");
 
             TS_WARN("Not yet implemented!");
         }
@@ -83,20 +86,34 @@ class MatrixTestSuite : public CxxTest::TestSuite {
          * stdin correctly. The input should be valid.
          */
         void test_cin_reading(void) {
-
-            // det verkar inte vara operator>> som pajar något
+            // empty1
             std::stringstream user_input1("[ 1 2 -3 ; 5 6 7 ]");
             user_input1 >> (*empty1);
             std::ostringstream out1;
             out1 << (*empty1);
 
-//            std::stringstream user_input2("[ 1 2 0 ; 2 5 -1 ; 4 10 -1 ]");
-//            user_input2 >> (*empty2);
-//            std::ostringstream out2;
-//            out2 << (*empty2);
+            TS_ASSERT_EQUALS((*empty1)[0][0], 1);
+            TS_ASSERT_EQUALS((*empty1)[1][0], 2);
+            TS_ASSERT_EQUALS((*empty1)[2][0], -3);
+            TS_ASSERT_EQUALS((*empty1)[0][1], 5);
+            TS_ASSERT_EQUALS((*empty1)[1][1], 6);
+            TS_ASSERT_EQUALS((*empty1)[2][1], 7);
 
-            TS_ASSERT_EQUALS(out1.str(), "[ 1 2 -3\n; 5 6 7 ]");
-//            TS_ASSERT_EQUALS(out2.str(), "[ 1 2 0\n; 2 5 -1\n; 4 10 -1 ]");
+            // empty2
+            std::stringstream user_input2("[ 1 2 0 ; 2 5 -1 ; 4 10 -1 ]");
+            user_input2 >> (*empty2);
+            std::ostringstream out2;
+            out2 << (*empty2);
+
+            TS_ASSERT_EQUALS((*empty2)[0][0], 1);
+            TS_ASSERT_EQUALS((*empty2)[1][0], 2);
+            TS_ASSERT_EQUALS((*empty2)[2][0], 0);
+            TS_ASSERT_EQUALS((*empty2)[0][1], 2);
+            TS_ASSERT_EQUALS((*empty2)[1][1], 5);
+            TS_ASSERT_EQUALS((*empty2)[2][1], -1);
+            TS_ASSERT_EQUALS((*empty2)[0][2], 4);
+            TS_ASSERT_EQUALS((*empty2)[1][2], 10);
+            TS_ASSERT_EQUALS((*empty2)[2][2], -1);
         }
 
         void test_increment_on_specific_element(void) {

@@ -64,7 +64,6 @@ void Matrix::set_dimensions(unsigned int rows, unsigned int cols) {
  * @return The standard input stream
  */
 std::istream & operator>>(std::istream & in, Matrix & matrix) {
-    
     std::string str;
     Vector<std::string> tokens;
     
@@ -96,9 +95,12 @@ std::istream & operator>>(std::istream & in, Matrix & matrix) {
     matrix.set_dimensions(num_rows, num_cols);
 
     // insert numbers into matrix
+    int number_index = 0;
     for (unsigned int row = 0; row < matrix.rows(); ++row) {
         for (unsigned int col = 0; col < matrix.columns(); ++col) {
-            matrix[col][row] = numbers[row+col];
+//            std::cout << "matrix[" << col << "][" << row << "] = " << numbers[number_index] << std::endl;
+            matrix[col][row] = numbers[number_index];
+            ++number_index;
         }
     }
 
@@ -154,7 +156,7 @@ std::ostream & operator<<(std::ostream & out, const Matrix & matrix) {
             }
             append.append(maxDigit - digit  +1, ' ');
             out << append << matrix[i][j]; // Right aligned 
-            // out << matrix[i][j] << append;  // Left aligned
+//             out << matrix[i][j] << append;  // Left aligned
         }
         if (i+1 < matrix.columns())
             out << std::endl;
